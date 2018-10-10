@@ -1,6 +1,6 @@
 <?php include "init.php"; 
 $obj = new base_class;
-
+$user_department = $_SESSION['user_deparment'];
 ?>
 <!doctype html>
 <!--[if lt IE 7]>      <html class="no-js lt-ie9 lt-ie8 lt-ie7" lang=""> <![endif]-->
@@ -10,7 +10,7 @@ $obj = new base_class;
 <head>
     <meta charset="utf-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
-    <title>Control de acuerdos || roles y permisos</title>
+    <title>Control de acuerdos || ver acuerdos</title>
     <meta name="description" content="Sufee Admin - HTML5 Admin Template">
     <meta name="viewport" content="width=device-width, initial-scale=1">
 
@@ -35,7 +35,7 @@ $obj = new base_class;
 <body>
         <!-- Left Panel -->
 
-    <?php include "sidebar.php"?>
+    <?php include "sidebarColaborador.php"?>
 
     <!-- Left Panel -->
 
@@ -60,51 +60,47 @@ $obj = new base_class;
                     <div class="page-title">
                         <ol class="breadcrumb text-right">
                             <li><a href="#">Inicio</a></li>
-                            <li><a href="#">Usuarios</a></li>
-                            <li class="active">Roles y permisos</li>
+                            <li><a href="#">Acuerdos</a></li>
+                            <li class="active">Ver acuerdos</li>
                         </ol>
                     </div>
                 </div>
             </div>
         </div>
 
-     
+<div class="col-sm-8">
 
- <div class="col-sm-8">
- <?php if(isset($_SESSION['eliminar_usuarios'])): ?>
+<?php if(isset($_SESSION['eliminar_acuerdo'])): ?>
  <div class="sufee-alert alert with-close alert-success alert-dismissible fade show">
     <span class="badge badge-pill badge-success">EXITO</span>
-    <?php echo $_SESSION['eliminar_usuarios']; ?>
+    <?php echo $_SESSION['eliminar_acuerdo']; ?>
     <button type="button" class="close" data-dismiss="alert" aria-label="Close">
      <span class="quitar"aria-hidden="true">&times;</span> </button>
      </div>
      <?php endif; ?>
-    <?php unset($_SESSION['eliminar_usuarios']); ?>
+    <?php unset($_SESSION['eliminar_acuerdo']); ?>
 
- <?php if(isset($_SESSION['rol_actualizado'])): ?>
+    <?php if(isset($_SESSION['crear_acuerdo'])): ?>
  <div class="sufee-alert alert with-close alert-success alert-dismissible fade show">
     <span class="badge badge-pill badge-success">EXITO</span>
-    <?php echo $_SESSION['rol_actualizado']; ?>
+    <?php echo $_SESSION['crear_acuerdo']; ?>
     <button type="button" class="close" data-dismiss="alert" aria-label="Close">
      <span class="quitar"aria-hidden="true">&times;</span> </button>
      </div>
      <?php endif; ?>
-    <?php unset($_SESSION['rol_actualizado']); ?>
+    <?php unset($_SESSION['crear_acuerdo']); ?>
 
-    <?php if(isset($_SESSION['dep_actualizado'])): ?>
+       <?php if(isset($_SESSION['asignar_departamento'])): ?>
  <div class="sufee-alert alert with-close alert-success alert-dismissible fade show">
     <span class="badge badge-pill badge-success">EXITO</span>
-    <?php echo $_SESSION['dep_actualizado']; ?>
+    <?php echo $_SESSION['asignar_departamento']; ?>
     <button type="button" class="close" data-dismiss="alert" aria-label="Close">
      <span class="quitar"aria-hidden="true">&times;</span> </button>
      </div>
      <?php endif; ?>
-    <?php unset($_SESSION['dep_actualizado']); ?>
+    <?php unset($_SESSION['asignar_departamento']); ?>
+
 </div>
-
-
-
-
 
 
 
@@ -116,24 +112,28 @@ $obj = new base_class;
                 <div class="col-md-12">
                     <div class="card">
                         <div class="card-header">
-                            <strong class="card-title">Usuarios registrados</strong>
+                            <strong class="card-title">Acuerdos registrados</strong>
                         </div>
                         <div class="card-body">
                   <table id="bootstrap-data-table" class="table table-striped table-bordered">
                     <thead>
                       <tr>
-                     
-                      <th>Nombre</th>
-                      <th>Email</th>
-                      <th>Rol</th>
-                      <th>Departamento</th>
+                      
+                      <th>Sesión</th>
+                      <th>Numero</th>
+                      <th>Departamento(s)</th>
+                      <th>Colaboradores</th>
+                      <th>Estado alcaldia</th>
+                      <th>Estado jefe</th>
+                      <th>Estado colaborador</th>
                       <th>Opciones</th>
                       
                       </tr>
                     </thead>
                     <tbody>
                     <?php
-$obj->Normal_Query("SELECT  * FROM users");
+                    
+$obj->Normal_Query("SELECT  * FROM acuerdos WHERE acuerdos.departamento like '%" . $user_department . "%'");
 $message_row=$obj-> fetch_all();
 
 foreach($message_row as $row):
@@ -141,22 +141,27 @@ foreach($message_row as $row):
                                                 
                                                 
                                                 <td>
-                                                    <?php echo $row->name,"<br>";?>
+                                                    <?php echo $row->num_sesion,"<br>";?>
                                                 </td>
-                                                <td ><?php echo $row->email,"<br>";?></td>
-                                                <td ><?php echo $row->rolUsuario,"<br>";?></td>
-                                                <td><?php echo $row->departamento,"<br>";?></td>
+                                                <td ><?php echo $row->num_acuerdo,"<br>";?></td>
+                                                <td ><?php echo $row->departamento,"<br>";?></td>
+                                                <td ><?php echo $row->colaboradores,"<br>";?></td>
+                                                <td><?php echo $row->estado_alcaldia,"<br>";?></td>
+                                                <td>
+                                                    <?php echo $row->estado_jefe,"<br>";?>
+                                                </td>
+                                                <td><?php echo $row->estado_colaborador,"<br>";?></td>
                                                 
 
     <td>
-                                                        <button  title="Editar rol y departamento">
-                                                        <a href="editarRolDepartamento.php?id=<?php echo $row->id?>">   <i class="fa fa-pencil"></i></a>
+                                                       
+                                                       
+                                                        <button  title="Ver acuerdo">
+                                                        <a href="editarAcuerdolCol.php?id=<?php echo $row->id?>"> <i class="fa fa-pencil"></i></a>
                                                         </button>
-                                                        <button  title="Eliminar Usuario">
-                                                        <a href="eliminarUsuarios.php?id=<?php echo $row->id?>"> <i class="fa fa-trash"></i></a>
-                                                        </button>
-                                                        <button  title="Ver Perfil">
-                                                        <a href="eliminarU.php?id=<?php echo $row->id?>"> <i class="fa fa-eye"></i></a>
+
+                                                           <button  title="Descargar archivo">
+                                                        <a href="mostrarArchivo.php?path=<?php echo $row->path?>"> <i class="fa fa-download"></i></a>
                                                         </button>
   
     </td>

@@ -3,31 +3,29 @@ $obj = new base_class;
 
 
 
-if(isset($_POST['change_date'])) {
-    $fecha_finiquito = $_POST['fecha_finiquito'];
+
+
+
+
+if(isset($_POST['change_est'])) {
+    $estado_colaborador = $_POST['est'];
     $id = $_GET['id'];
 
-    if($obj->Normal_Query("UPDATE acuerdos SET fecha_finiquito = ? WHERE id = ?", [$fecha_finiquito, $id])){
-        $obj->Create_Session("fecha_acuerdo", $fecha_finiquito);
-        $obj->Create_Session("date_updated", "Se actualizo correctamente la fecha del acuerdo");
-        header("location:editarAcuerdo.php");
-}
-}
-
-
-if(isset($_POST['change_dep'])) {
-    $estado_acuerdo = $_POST['est'];
-    $id = $_GET['id'];
-
-    if($obj->Normal_Query("UPDATE acuerdos SET estado_alcaldia = ? WHERE id = ?", [$estado_acuerdo, $id])){
-        $obj->Create_Session("fecha_acuerdo", $estado_acuerdo);
-        $obj->Create_Session("date_updated", "Se actualizo correctamente el estado del acuerdo");
-        header("location:editarAcuerdo.php");
+    if($obj->Normal_Query("UPDATE acuerdos SET estado_colaborador = ? WHERE id = ?", [$estado_colaborador, $id])){
+        $obj->Create_Session("fecha_acuerdo", $estado_colaborador);
+        $obj->Create_Session("estado_jefe", "Se actualizo correctamente el estado del acuerdo");
+        header("location:verColaboradoresCol.php");
 }
 }
 
 
 
+
+$user_department = $_SESSION['user_deparment'];
+
+
+
+$user_rol = 'Colaborador';
 
 ?>
 
@@ -42,7 +40,7 @@ if(isset($_POST['change_dep'])) {
 <head>
     <meta charset="utf-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
-    <title>Control de acuerdos || editar fecha de finiquito</title>
+    <title>Control de acuerdos || asignar colaboradores</title>
     <meta name="description" content="Sufee Admin - HTML5 Admin Template">
     <meta name="viewport" content="width=device-width, initial-scale=1">
 
@@ -67,7 +65,7 @@ if(isset($_POST['change_dep'])) {
 <body>
         <!-- Left Panel -->
 
-         <?php include "sidebar.php"?>
+         <?php include "sidebarJefe.php"?>
 
     <!-- Left Panel -->
 
@@ -83,7 +81,7 @@ if(isset($_POST['change_dep'])) {
             <div class="col-sm-4">
                 <div class="page-header float-left">
                     <div class="page-title">
-                    <h1>Fecha de finiquito y estado</h1>
+                    <h1>Asignar colaboradores al acuerdo</h1>
                     </div>
                 </div>
             </div>
@@ -93,14 +91,14 @@ if(isset($_POST['change_dep'])) {
                         <ol class="breadcrumb text-right">
                             <li><a href="#">Inicio</a></li>
                             <li><a href="#">Acuerdos</a></li>
-                            <li class="active">Editar fecha de finiquito</li>
+                            <li class="active">Asignar colaboradores</li>
                         </ol>
                     </div>
                 </div>
             </div>
         </div>
 
-        <div class="content mt-1">
+        <div class="content mt-3">
             <div class="animated fadeIn">
 
                 <div class="row">
@@ -113,12 +111,11 @@ $id = $_GET['id'];
 $obj->Normal_Query("SELECT  * FROM acuerdos WHERE id=$id");
 $row = $obj->Single_Result();
 ?>
-                      <div class="card-header">Editar fecha de finiquito </div>
+                      <div class="card-header">Acuerdo </div>
                       <div class="card-body card-block">
                         <form action="" method="post" class="">
 
 
-                        
 
 
 
@@ -143,7 +140,7 @@ $row = $obj->Single_Result();
                             </div>
                           </div>
 
-                           <div class="row form-group">
+  <div class="row form-group">
                             <div class="col col-md-1"><label for="disabled-input" class=" form-control-label">Descripción:</label></div>
                             <div class="col-12 col-md-12"><textarea name="disabled-input"" id="disabled-input" rows="9" placeholder="<?php echo $row->descripcion;?>"  disabled="" class="form-control"></textarea></div>
                           </div>
@@ -162,7 +159,6 @@ $row = $obj->Single_Result();
                             <div class="input-group">
                               <div class="input-group-addon"><i class="fa fa-archive"></i></div>
                               <input type="text" id="disabled-input" name="disabled-input" placeholder="<?php echo $row->fecha_finiquito;?>" disabled="" class="form-control">
-                              <input id="cc-pament" name="fecha_finiquito" type="date" class="form-control" aria-required="true" aria-invalid="false" placeholder="Dia">
                             </div>
                           </div>
                           
@@ -170,19 +166,17 @@ $row = $obj->Single_Result();
                     
 
 
-                          <div class="form-actions form-group"><button type="submit" name="change_state" class="btn btn-success btn-md"><i class="fa fa-check"></i>&nbsp;Cambiar fecha de finiquito</button>
-                          <button type="submit" class="btn btn-danger btn-md"><i class="fa fa-ban"></i>&nbsp;Reinicar campos</button>
-                        </div>
+                         
                           
                         </form>
                       </div>
                     </div>
+
+
+                    
                   </div>
 
-
-
-                  
-                  <div class="col-md-6">
+                 <div class="col-md-6">
 
 <div class="card">
   <div class="card-header">Editar estado del acuerdo</div>
@@ -199,7 +193,7 @@ $row = $obj->Single_Result();
                                                         <option value=""></option>
                                                         <option value="Finalizado">Finalizado</option>
                                                         <option value="Incompleto">Incompleto</option>
-                                                        <option value="Asignado a departamento">Asignado a departamento</option>
+                                                        
                                                        
                                 </select>
 
@@ -209,7 +203,7 @@ $row = $obj->Single_Result();
      
       
       
-      <div class="form-actions form-group"><button type="submit" name="change_dep" class="btn btn-success btn-md"><i class="fa fa-check"></i>&nbsp;Actualizar Estado</button>
+      <div class="form-actions form-group"><button type="submit" name="change_est" class="btn btn-success btn-md"><i class="fa fa-check"></i>&nbsp;Actualizar Estado</button>
       <button type="button" class="btn btn-danger btn-md" onClick="funcion_reiniciar();"><i class="fa fa-ban"></i>&nbsp;Reinicar campos</button>
     </div>
       
@@ -217,6 +211,7 @@ $row = $obj->Single_Result();
   </div>
 </div>
 </div>
+                  
 
 
     </div><!-- /#right-panel -->

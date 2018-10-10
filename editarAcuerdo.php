@@ -97,12 +97,13 @@ $obj = new base_class;
                   <table id="bootstrap-data-table" class="table table-striped table-bordered">
                     <thead>
                       <tr>
-                      <th>Id</th>
+                  
                       <th>Sesión</th>
                       <th>Numero</th>
-                      <th>Departamento(s)</th>
-                      <th>Fecha creación</th>
-                      <th>Fecha finiquito</th>
+                      <th>Departamentos</th>
+                      <th>Colaboradores</th>
+                      <th>Estado alcaldia</th>
+                      <th>Estado jefe</th>
                       <th>Opciones</th>
                       
                       </tr>
@@ -115,15 +116,16 @@ $message_row=$obj-> fetch_all();
 foreach($message_row as $row):
     ?> <tr>
                                                 
-                                                <td><?php echo $row->id,"<br>";?></td>
+                                              
                                                 <td>
                                                     <?php echo $row->num_sesion,"<br>";?>
                                                 </td>
                                                 <td ><?php echo $row->num_acuerdo,"<br>";?></td>
                                                 <td ><?php echo $row->departamento,"<br>";?></td>
-                                                <td><?php echo $row->fecha_creacion,"<br>";?></td>
+                                                <td ><?php echo $row->colaboradores,"<br>";?></td>
+                                                <td><?php echo $row->estado_alcaldia,"<br>";?></td>
                                                 <td>
-                                                    <?php echo $row->fecha_finiquito,"<br>";?>
+                                                    <?php echo $row->estado_jefe,"<br>";?>
                                                 </td>
 
     <td>
@@ -133,8 +135,8 @@ foreach($message_row as $row):
                                                         <button  title="Eliminar">
                                                         <a href="eliminarAcuerdo.php?id=<?php echo $row->id?>"> <i class="fa fa-trash"></i></a>
                                                         </button>
-                                                        <button  title="Ver acuerdo">
-                                                        <a href="eliminarUsuario.php?id=<?php echo $row->id?>"> <i class="fa fa-eye"></i></a>
+                                                        <button  title="Descargar archivo">
+                                                        <a href="mostrarArchivo.php?path=<?php echo $row->path?>"> <i class="fa fa-download"></i></a>
                                                         </button>
   
     </td>
@@ -154,6 +156,10 @@ foreach($message_row as $row):
                 </div>
             </div><!-- .animated -->
         </div><!-- .content -->
+
+
+
+        
 
 
     </div><!-- /#right-panel -->

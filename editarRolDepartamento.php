@@ -167,7 +167,7 @@ $row = $obj->Single_Result();
 
                           <div class="card">
                             <div class="card-header">
-                                <strong class="card-title">Departamentos</strong>
+                                <strong class="card-title">Departamento</strong>
                             </div>
                             <div class="card-body">
 

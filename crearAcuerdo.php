@@ -9,13 +9,13 @@ if(isset($_POST['send_a'])){
     $archivo_tmp   = $_FILES['archivo']['tmp_name'];
     $fecha_creacion = $_POST['fecha_creacion'];
     $fecha_finiquito = $_POST['fecha_finiquito'];
-    $file_path  = "../dist/img/";
+    $file_path  = "images/documentos/$archivo_name";
     $extensions = ['pdf', 'txt', 'docx'];
     $status = 0;
     $clean_status = 0;
-    move_uploaded_file($archivo_tmp, "$file_path/$archivo_name");
-    if($obj->Normal_Query("INSERT INTO acuerdos (num_sesion,num_acuerdo, descripcion, archivo,fecha_creacion,fecha_finiquito) 
-      VALUES (?,?,?,?,?,?)", [$num_sesion, $num_acuerdo , $descripcion, $archivo_name,$fecha_creacion,$fecha_finiquito])) {
+    move_uploaded_file($archivo_tmp, "$file_path");
+    if($obj->Normal_Query("INSERT INTO acuerdos (num_sesion,num_acuerdo, descripcion, archivo, path ,fecha_creacion,fecha_finiquito) 
+      VALUES (?,?,?,?,?,?,?)", [$num_sesion, $num_acuerdo , $descripcion, $archivo_name,$file_path,$fecha_creacion,$fecha_finiquito])) {
               
                 
                  
@@ -24,7 +24,7 @@ if(isset($_POST['send_a'])){
                 
                  $obj->Create_Session("fecha_creacion", $fecha_creacion);
                  $obj->Create_Session("fecha_finiquito", $fecha_finiquito);
-                 $obj->Create_Session("archivo", $archivo_name);
+                 $obj->Create_Session("archivo", $file_path);
                  $obj->Create_Session("crear_acuerdo", "El acuerdo se creo correctamente");
                  header("location:verAcuerdos.php");
             }
