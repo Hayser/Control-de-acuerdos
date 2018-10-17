@@ -1,38 +1,41 @@
-<?php include "init.php"; 
+<?php include "init.php";
 $obj = new base_class;
 
 
 
-if(isset($_POST['change_date'])) {
+if (isset($_POST['change_date'])) {
     $fecha_finiquito = $_POST['fecha_finiquito'];
     $id = $_GET['id'];
 
-    if($obj->Normal_Query("UPDATE acuerdos SET fecha_finiquito = ? WHERE id = ?", [$fecha_finiquito, $id])){
+    if ($obj->Normal_Query("UPDATE acuerdos SET fecha_finiquito = ? WHERE id = ?", [$fecha_finiquito, $id])) {
         $obj->Create_Session("fecha_acuerdo", $fecha_finiquito);
-        $obj->Create_Session("date_updated", "Se actualizo correctamente la fecha del acuerdo");
+        $obj->Create_Session("date_updated", "Se actualizó correctamente la fecha del acuerdo");
         header("location:editarAcuerdo.php");
-}
+    }
 }
 
 
-if(isset($_POST['change_dep'])) {
+if (isset($_POST['change_dep'])) {
     $estado_acuerdo = $_POST['est'];
     $id = $_GET['id'];
 
-    if($obj->Normal_Query("UPDATE acuerdos SET estado_alcaldia = ? WHERE id = ?", [$estado_acuerdo, $id])){
+    if ($obj->Normal_Query("UPDATE acuerdos SET estado_alcaldia = ? WHERE id = ?", [$estado_acuerdo, $id])) {
+        
+        $obj->Normal_Query("SELECT * FROM `acuerdos` WHERE id = ?", [$id]);
+        $obj->Count_Rows();
+        $row = $obj->Single_Result();
+        $num = $row->num_acuerdo;
+        $dep = $row->departamento;
+
+        $obj->Normal_Query("INSERT INTO notificaciones (num_acuerdo, departamento, estado_alcaldia) 
+                            VALUES (?,?,?)", [$num, $dep, $estado_acuerdo]);
+        
         $obj->Create_Session("fecha_acuerdo", $estado_acuerdo);
-        $obj->Create_Session("date_updated", "Se actualizo correctamente el estado del acuerdo");
+        $obj->Create_Session("date_updated", "Se actualizó correctamente el estado del acuerdo");
         header("location:editarAcuerdo.php");
+    }
 }
-}
-
-
-
-
 ?>
-
-
-
 
 <!doctype html>
 <!--[if lt IE 7]>      <html class="no-js lt-ie9 lt-ie8 lt-ie7" lang=""> <![endif]-->
@@ -47,7 +50,7 @@ if(isset($_POST['change_dep'])) {
     <meta name="viewport" content="width=device-width, initial-scale=1">
 
     <link rel="apple-touch-icon" href="images/muni.jpg">
-    <link rel="shortcut icon" href="images/muni.jpg">
+    <link rel="shortcut icon" href="images/logoMuni.png">
 
     <link rel="stylesheet" href="assets/css/normalize.css">
     <link rel="stylesheet" href="assets/css/bootstrap.min.css">
@@ -67,7 +70,7 @@ if(isset($_POST['change_dep'])) {
 <body>
         <!-- Left Panel -->
 
-         <?php include "sidebar.php"?>
+         <?php include "sidebar.php" ?>
 
     <!-- Left Panel -->
 
@@ -76,7 +79,7 @@ if(isset($_POST['change_dep'])) {
     <div id="right-panel" class="right-panel">
 
         <!-- Header-->
-        <?php include "header.php"?>
+        <?php include "header.php" ?>
         <!-- Header-->
 
         <div class="breadcrumbs">
@@ -91,8 +94,8 @@ if(isset($_POST['change_dep'])) {
                 <div class="page-header float-right">
                     <div class="page-title">
                         <ol class="breadcrumb text-right">
-                            <li><a href="#">Inicio</a></li>
-                            <li><a href="#">Acuerdos</a></li>
+                            <li><a href="principal.php">Inicio</a></li>
+                            <li><a class="active">Acuerdos</a></li>
                             <li class="active">Editar fecha de finiquito</li>
                         </ol>
                     </div>
@@ -109,43 +112,33 @@ if(isset($_POST['change_dep'])) {
                 <div class="col-lg-6">
                     <div class="card">
                     <?php
-$id = $_GET['id'];
-$obj->Normal_Query("SELECT  * FROM acuerdos WHERE id=$id");
-$row = $obj->Single_Result();
-?>
+                    $id = $_GET['id'];
+                    $obj->Normal_Query("SELECT  * FROM acuerdos WHERE id=$id");
+                    $row = $obj->Single_Result();
+                    ?>
                       <div class="card-header">Editar fecha de finiquito </div>
                       <div class="card-body card-block">
                         <form action="" method="post" class="">
-
-
-                        
-
-
-
-
-
-
 
                         <div class="form-group">
                           <label  for="disabled-input" class=" form-control-label">Numero de sesión</label>
                             <div class="input-group">
                               <div class="input-group-addon"><i class="fa fa-archive"></i></div>
-                              <input type="text" id="disabled-input" name="disabled-input" placeholder="<?php echo $row->num_sesion;?>" disabled="" class="form-control">
+                              <input type="text" id="disabled-input" name="disabled-input" placeholder="<?php echo $row->num_sesion; ?>" disabled="" class="form-control">
                             </div>
                           </div>
 
-
                           <div class="form-group">
-                          <label  for="disabled-input" class=" form-control-label">Numero de acuerdo</label>
+                          <label  for="disabled-input" class=" form-control-label">Número de acuerdo</label>
                             <div class="input-group">
                               <div class="input-group-addon"><i class="fa fa-archive"></i></div>
-                              <input type="text" id="disabled-input" name="disabled-input" placeholder="<?php echo $row->num_acuerdo;?>" disabled="" class="form-control">
+                              <input type="text" id="disabled-input" name="disabled-input" placeholder="<?php echo $row->num_acuerdo; ?>" disabled="" class="form-control">
                             </div>
                           </div>
 
                            <div class="row form-group">
                             <div class="col col-md-1"><label for="disabled-input" class=" form-control-label">Descripción:</label></div>
-                            <div class="col-12 col-md-12"><textarea name="disabled-input"" id="disabled-input" rows="9" placeholder="<?php echo $row->descripcion;?>"  disabled="" class="form-control"></textarea></div>
+                            <div class="col-12 col-md-12"><textarea name="disabled-input"" id="disabled-input" rows="9" placeholder="<?php echo $row->descripcion; ?>"  disabled="" class="form-control"></textarea></div>
                           </div>
 
 
@@ -153,22 +146,18 @@ $row = $obj->Single_Result();
                           <label  for="disabled-input" class=" form-control-label">Fecha de creación</label>
                             <div class="input-group">
                               <div class="input-group-addon"><i class="fa fa-archive"></i></div>
-                              <input type="text" id="disabled-input" name="disabled-input" placeholder="<?php echo $row->fecha_creacion;?>" disabled="" class="form-control">
+                              <input type="text" id="disabled-input" name="disabled-input" placeholder="<?php echo $row->fecha_creacion; ?>" disabled="" class="form-control">
                             </div>
                           </div>
 
                         <div class="form-group">
-                          <label  for="disabled-input" class=" form-control-label">fecha de finiquito</label>
+                          <label  for="disabled-input" class=" form-control-label">Fecha de finiquito</label>
                             <div class="input-group">
                               <div class="input-group-addon"><i class="fa fa-archive"></i></div>
-                              <input type="text" id="disabled-input" name="disabled-input" placeholder="<?php echo $row->fecha_finiquito;?>" disabled="" class="form-control">
+                              <input type="text" id="disabled-input" name="disabled-input" placeholder="<?php echo $row->fecha_finiquito; ?>" disabled="" class="form-control">
                               <input id="cc-pament" name="fecha_finiquito" type="date" class="form-control" aria-required="true" aria-invalid="false" placeholder="Dia">
                             </div>
                           </div>
-                          
-
-                    
-
 
                           <div class="form-actions form-group"><button type="submit" name="change_state" class="btn btn-success btn-md"><i class="fa fa-check"></i>&nbsp;Cambiar fecha de finiquito</button>
                           <button type="submit" class="btn btn-danger btn-md"><i class="fa fa-ban"></i>&nbsp;Reinicar campos</button>
@@ -179,9 +168,6 @@ $row = $obj->Single_Result();
                     </div>
                   </div>
 
-
-
-                  
                   <div class="col-md-6">
 
 <div class="card">
@@ -210,7 +196,7 @@ $row = $obj->Single_Result();
       
       
       <div class="form-actions form-group"><button type="submit" name="change_dep" class="btn btn-success btn-md"><i class="fa fa-check"></i>&nbsp;Actualizar Estado</button>
-      <button type="button" class="btn btn-danger btn-md" onClick="funcion_reiniciar();"><i class="fa fa-ban"></i>&nbsp;Reinicar campos</button>
+      <button type="submit" class="btn btn-danger btn-md"><i class="fa fa-ban"></i>&nbsp;Reinicar campos</button>
     </div>
       
     </form>

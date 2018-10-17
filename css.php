@@ -1,5 +1,5 @@
 <link rel="apple-touch-icon" href="apple-icon.png">
-<link rel="shortcut icon" href="images/muni.jpg">
+<link rel="shortcut icon" href="images/logoMuni.png">
 
 <link rel="stylesheet" href="assets/css/normalize.css">
 <link rel="stylesheet" href="assets/css/bootstrap.min.css">
@@ -12,8 +12,5 @@
 <link rel="stylesheet" href="assets/css/lib/chosen/chosen.min.css">
 <!-- <link rel="stylesheet" href="assets/css/bootstrap-select.less"> -->
 
-
 <link rel="stylesheet" href="assets/scss/style.css">
 <link href='https://fonts.googleapis.com/css?family=Open+Sans:400,600,700,800' rel='stylesheet' type='text/css'>
-
-

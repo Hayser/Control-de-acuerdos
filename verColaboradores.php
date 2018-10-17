@@ -15,7 +15,7 @@ $user_department = $_SESSION['user_deparment'];
     <meta name="viewport" content="width=device-width, initial-scale=1">
 
     <link rel="apple-touch-icon" href="images/muni.jpg">
-    <link rel="shortcut icon" href="images/muni.jpg">
+    <link rel="shortcut icon" href="images/logoMuni.png">
 
     <link rel="stylesheet" href="assets/css/normalize.css">
     <link rel="stylesheet" href="assets/css/bootstrap.min.css">
@@ -44,14 +44,14 @@ $user_department = $_SESSION['user_deparment'];
     <div id="right-panel" class="right-panel">
 
         <!-- Header-->
-    <?php include "header.php"?>
+    <?php include "headerJefe.php"?>
         <!-- Header-->
 
         <div class="breadcrumbs">
             <div class="col-sm-4">
                 <div class="page-header float-left">
                     <div class="page-title">
-                        <h1>Pagina Principal</h1>
+                        <h1>Asignar colaborador</h1>
                     </div>
                 </div>
             </div>
@@ -59,8 +59,8 @@ $user_department = $_SESSION['user_deparment'];
                 <div class="page-header float-right">
                     <div class="page-title">
                         <ol class="breadcrumb text-right">
-                            <li><a href="#">Inicio</a></li>
-                            <li><a href="#">Acuerdos</a></li>
+                            <li><a href="principalJefe.php">Inicio</a></li>
+                            <li><a class="active">Acuerdos</a></li>
                             <li class="active">Asignar Colaborador</li>
                         </ol>
                     </div>
@@ -72,7 +72,7 @@ $user_department = $_SESSION['user_deparment'];
 
 <?php if(isset($_SESSION['eliminar_acuerdo'])): ?>
  <div class="sufee-alert alert with-close alert-success alert-dismissible fade show">
-    <span class="badge badge-pill badge-success">EXITO</span>
+    <span class="badge badge-pill badge-success">ÉXITO</span>
     <?php echo $_SESSION['eliminar_acuerdo']; ?>
     <button type="button" class="close" data-dismiss="alert" aria-label="Close">
      <span class="quitar"aria-hidden="true">&times;</span> </button>
@@ -82,7 +82,7 @@ $user_department = $_SESSION['user_deparment'];
 
     <?php if(isset($_SESSION['crear_acuerdo'])): ?>
  <div class="sufee-alert alert with-close alert-success alert-dismissible fade show">
-    <span class="badge badge-pill badge-success">EXITO</span>
+    <span class="badge badge-pill badge-success">ÉXITO</span>
     <?php echo $_SESSION['crear_acuerdo']; ?>
     <button type="button" class="close" data-dismiss="alert" aria-label="Close">
      <span class="quitar"aria-hidden="true">&times;</span> </button>
@@ -92,7 +92,7 @@ $user_department = $_SESSION['user_deparment'];
 
        <?php if(isset($_SESSION['asignar_departamento'])): ?>
  <div class="sufee-alert alert with-close alert-success alert-dismissible fade show">
-    <span class="badge badge-pill badge-success">EXITO</span>
+    <span class="badge badge-pill badge-success">ÉXITO</span>
     <?php echo $_SESSION['asignar_departamento']; ?>
     <button type="button" class="close" data-dismiss="alert" aria-label="Close">
      <span class="quitar"aria-hidden="true">&times;</span> </button>
@@ -120,11 +120,12 @@ $user_department = $_SESSION['user_deparment'];
                       <tr>
                       
                       <th>Sesión</th>
-                      <th>Numero</th>
+                      <th>Número</th>
                       <th>Departamento(s)</th>
-                      <th>Colaboradores</th>
+                      <th>Estado Alcaldia</th>
                       <th>Estado Jefe</th>
                       <th>Estado Colaborador</th>
+                      <th>Colaborador(es)</th>
                       <th>Opciones</th>
                       
                       </tr>
@@ -144,11 +145,12 @@ foreach($message_row as $row):
                                                 </td>
                                                 <td ><?php echo $row->num_acuerdo,"<br>";?></td>
                                                 <td ><?php echo $row->departamento,"<br>";?></td>
-                                                <td ><?php echo $row->colaboradores,"<br>";?></td>
+                                                <td><?php echo $row->estado_alcaldia,"<br>";?></td>
                                                 <td><?php echo $row->estado_jefe,"<br>";?></td>
                                                 <td>
                                                     <?php echo $row->estado_colaborador,"<br>";?>
                                                 </td>
+                                                <td ><?php echo $row->colaboradores,"<br>";?></td>
 
     <td>
                                                         <button  title="Asignar colaboradores">

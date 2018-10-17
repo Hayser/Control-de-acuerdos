@@ -1,8 +1,8 @@
-$(document).ready(function() {
-	$(".quitar").click(function(){
+$(document).ready(function () {
+	$(".quitar").click(function () {
 		$(".sufee-alert").hide();
-    })
-    setTimeout(function(){
+	})
+	setTimeout(function () {
 		$(".sufee-alert").fadeOut("slow");
 	}, 1000);
 

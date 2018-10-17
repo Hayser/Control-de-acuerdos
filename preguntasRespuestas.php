@@ -1,4 +1,4 @@
-<?php include "init.php"; 
+<?php include "init.php";
 $obj = new base_class;
 
 ?>
@@ -46,7 +46,7 @@ $obj = new base_class;
 
     <div id="right-panel" class="right-panel">
 
-        <?php include"header.php"?>
+        <?php include "header.php" ?>
         <!-- Header-->
    <!-- Codigo de la pagina principal-->
       
@@ -54,7 +54,7 @@ $obj = new base_class;
             <div class="col-sm-4">
                 <div class="page-header float-left">
                     <div class="page-title">
-                    <h1>Pagina de ayuda</h1>
+                    <h1>Ayuda</h1>
                     </div>
                 </div>
             </div>
@@ -62,7 +62,7 @@ $obj = new base_class;
                 <div class="page-header float-right">
                     <div class="page-title">
                         <ol class="breadcrumb text-right">
-                        <li>Inicio</li>
+                        <li><a href="principal.php">Inicio</a></li>
                       <li class="active">Ayuda</li>
                     <li class="active">Preguntas frecuentes</li>
                         </ol>
@@ -83,65 +83,147 @@ $obj = new base_class;
                         <div class="card-body">
 
 <div id="accordion">
+
   <div class="card">
     <div class="card-header" id="headingOne">
       <h5 class="mb-0">
-        <button class="btn btn-link" data-toggle="collapse" data-target="#collapseOne" aria-expanded="true" aria-controls="collapseOne">
-          1. ¿Como cambiar mi nombre de usuario?
+        <button class="btn btn-link collapsed" data-toggle="collapse" data-target="#collapseOne" aria-expanded="true" aria-controls="collapseOne">
+          1. ¿Cómo cambiar mi nombre de usuario?
         </button>
       </h5>
     </div>
-
     <div id="collapseOne" class="collapse show" aria-labelledby="headingOne" data-parent="#accordion">
       <div class="card-body">
-        Nos dirigimos al menu principal, Mi perfil / actualizar perfil.
+        Diríjase al menú lateral izquierdo, Mi perfil / Configuración / Actualizar perfil.
       </div>
     </div>
   </div>
+
   <div class="card">
     <div class="card-header" id="headingTwo">
       <h5 class="mb-0">
         <button class="btn btn-link collapsed" data-toggle="collapse" data-target="#collapseTwo" aria-expanded="false" aria-controls="collapseTwo">
-        2. ¿Como cambiar mi contraseña?
+        2. ¿Cómo cambiar mi contraseña?
         </button>
       </h5>
     </div>
     <div id="collapseTwo" class="collapse" aria-labelledby="headingTwo" data-parent="#accordion">
       <div class="card-body">
-        Anim pariatur cliche reprehenderit, enim eiusmod high life accusamus terry richardson ad squid. 3 wolf moon officia aute, non cupidatat skateboard dolor brunch. Food truck quinoa nesciunt laborum eiusmod. Brunch 3 wolf moon tempor, sunt aliqua put a bird on it squid single-origin coffee nulla assumenda shoreditch et. Nihil anim keffiyeh helvetica, craft beer labore wes anderson cred nesciunt sapiente ea proident. Ad vegan excepteur butcher vice lomo. Leggings occaecat craft beer farm-to-table, raw denim aesthetic synth nesciunt you probably haven't heard of them accusamus labore sustainable VHS.
+      Diríjase al menú lateral izquierdo, Mi perfil / Configuración / Cambiar contraseña.
       </div>
     </div>
   </div>
+
   <div class="card">
     <div class="card-header" id="headingThree">
       <h5 class="mb-0">
         <button class="btn btn-link collapsed" data-toggle="collapse" data-target="#collapseThree" aria-expanded="false" aria-controls="collapseThree">
-        3. ¿Como cambiar mi foto de perfil?
+        3. ¿Cómo cambiar mi foto de perfil?
         </button>
       </h5>
     </div>
     <div id="collapseThree" class="collapse" aria-labelledby="headingThree" data-parent="#accordion">
       <div class="card-body">
-        Anim pariatur cliche reprehenderit, enim eiusmod high life accusamus terry richardson ad squid. 3 wolf moon officia aute, non cupidatat skateboard dolor brunch. Food truck quinoa nesciunt laborum eiusmod. Brunch 3 wolf moon tempor, sunt aliqua put a bird on it squid single-origin coffee nulla assumenda shoreditch et. Nihil anim keffiyeh helvetica, craft beer labore wes anderson cred nesciunt sapiente ea proident. Ad vegan excepteur butcher vice lomo. Leggings occaecat craft beer farm-to-table, raw denim aesthetic synth nesciunt you probably haven't heard of them accusamus labore sustainable VHS.
+      Diríjase al menú lateral izquierdo, Mi perfil / Configuración / Cambiar foto.
       </div>
     </div>
   </div>
-</div>
 
-<div class="card">
-    <div class="card-header" id="headingThree">
+  <div class="card">
+    <div class="card-header" id="headingFour">
       <h5 class="mb-0">
-        <button class="btn btn-link collapsed" data-toggle="collapse" data-target="#collapseThree" aria-expanded="false" aria-controls="collapsefour">
-        4. ¿Como crear un acuerdo en el sistema?
+        <button class="btn btn-link collapsed" data-toggle="collapse" data-target="#collapseFour" aria-expanded="false" aria-controls="collapseFour">
+        4. ¿Cómo crear un acuerdo?
         </button>
       </h5>
     </div>
-    <div id="collapseThree" class="collapse" aria-labelledby="headingThree" data-parent="#accordion">
+    <div id="collapseFour" class="collapse" aria-labelledby="headingFour" data-parent="#accordion">
       <div class="card-body">
-        Anim pariatur cliche reprehenderit, enim eiusmod high life accusamus terry richardson ad squid. 3 wolf moon officia aute, non cupidatat skateboard dolor brunch. Food truck quinoa nesciunt laborum eiusmod. Brunch 3 wolf moon tempor, sunt aliqua put a bird on it squid single-origin coffee nulla assumenda shoreditch et. Nihil anim keffiyeh helvetica, craft beer labore wes anderson cred nesciunt sapiente ea proident. Ad vegan excepteur butcher vice lomo. Leggings occaecat craft beer farm-to-table, raw denim aesthetic synth nesciunt you probably haven't heard of them accusamus labore sustainable VHS.
+      Diríjase al menú lateral izquierdo, Acuerdos / Configuración / Crear acuerdo.
       </div>
     </div>
   </div>
+
+  <div class="card">
+    <div class="card-header" id="headingFive">
+      <h5 class="mb-0">
+        <button class="btn btn-link collapsed" data-toggle="collapse" data-target="#collapseFive" aria-expanded="false" aria-controls="collapseFive">
+        5. ¿Cómo editar la fecha de finiquito y estado de un acuerdo?
+        </button>
+      </h5>
+    </div>
+    <div id="collapseFive" class="collapse" aria-labelledby="headingFive" data-parent="#accordion">
+      <div class="card-body">
+      Diríjase al menú lateral izquierdo, Acuerdos / Configuración / Editar acuerdo. <br>
+      Ahora, diríjase a la columna "Opciones" de la tabla, y presione en el lápiz.
+      </div>
+    </div>
+  </div>
+
+  <div class="card">
+    <div class="card-header" id="headingSix">
+      <h5 class="mb-0">
+        <button class="btn btn-link collapsed" data-toggle="collapse" data-target="#collapseSix" aria-expanded="false" aria-controls="collapseSix">
+        6. ¿Cómo asignar un acuerdo por departamento?
+        </button>
+      </h5>
+    </div>
+    <div id="collapseSix" class="collapse" aria-labelledby="headingSix" data-parent="#accordion">
+      <div class="card-body">
+      Diríjase al menú lateral izquierdo, Acuerdos / Configuración / Asignar acuerdos. <br>
+      Ahora, diríjase a la columna "Opciones" de la tabla, y presione en el lápiz.
+      </div>
+    </div>
+  </div>
+
+  <div class="card">
+    <div class="card-header" id="headingSeven">
+      <h5 class="mb-0">
+        <button class="btn btn-link collapsed" data-toggle="collapse" data-target="#collapseSeven" aria-expanded="false" aria-controls="collapseSeven">
+        7. ¿Cómo editar los roles y permisos de los usuarios?
+        </button>
+      </h5>
+    </div>
+    <div id="collapseSeven" class="collapse" aria-labelledby="headingSeven" data-parent="#accordion">
+      <div class="card-body">
+      Diríjase al menú lateral izquierdo, Usuarios / Roles y permisos. <br>
+      Ahora, diríjase a la columna "Opciones" de la tabla, y presione en el lápiz.
+      </div>
+    </div>
+  </div>
+
+  <div class="card">
+    <div class="card-header" id="headingEight">
+      <h5 class="mb-0">
+        <button class="btn btn-link collapsed" data-toggle="collapse" data-target="#collapseEight" aria-expanded="false" aria-controls="collapseEight">
+        8. ¿Cómo eliminar un acuerdo?
+        </button>
+      </h5>
+    </div>
+    <div id="collapseEight" class="collapse" aria-labelledby="headingEight" data-parent="#accordion">
+      <div class="card-body">
+      Diríjase al menú lateral izquierdo, Acuerdos / Configuración / Editar acuerdos o Asignar acuerdos. <br>
+      Ahora, diríjase a la columna "Opciones" de la tabla, y presione en el ícono del basurero.
+      </div>
+    </div>
+  </div>
+
+  <div class="card">
+    <div class="card-header" id="headingNine">
+      <h5 class="mb-0">
+        <button class="btn btn-link collapsed" data-toggle="collapse" data-target="#collapseNine" aria-expanded="false" aria-controls="collapseNine">
+        9. ¿Cómo descargar el archivo de un acuerdo?
+        </button>
+      </h5>
+    </div>
+    <div id="collapseNine" class="collapse" aria-labelledby="headingNine" data-parent="#accordion">
+      <div class="card-body">
+      Diríjase al menú lateral izquierdo, Acuerdos / Configuración / Editar acuerdos o Asignar acuerdos. <br>
+      Ahora, diríjase a la columna "Opciones" de la tabla, y presione en el ícono de descarga.
+      </div>
+    </div>
+  </div>
+
 </div>
 
 

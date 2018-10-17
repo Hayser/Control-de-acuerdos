@@ -1,27 +1,34 @@
-<?php include "init.php"; 
+<?php include "init.php";
 $obj = new base_class;
 
 
-if(isset($_POST['change_name'])) {
+if (isset($_POST['change_name'])) {
     $user_name = $_POST['user_name'];
     $user_id = $_SESSION['user_id'];
-    if(empty($user_name)) {
-		$user_name_error = "No se ha ingresado ningun nombre";
-	}else {
-		if($obj->Normal_Query("UPDATE users SET name = ? WHERE id = ?", [$user_name, $user_id])){
+    if (empty($user_name)) {
+        $user_name_error = "No se ha ingresado ningun nombre";
+    } else {
+        if ($obj->Normal_Query("UPDATE users SET name = ? WHERE id = ?", [$user_name, $user_id])) {
             $obj->Create_Session("user_name", $user_name);
             $obj->Create_Session("name_updated", "su nombre se actualizo correctamente");
             header("location:principalColaborador.php");
         }
+    }
 }
+
+if (isset($_POST['change_last_name'])) {
+    $user_last_name = $_POST['user_last_name'];
+    $user_id = $_SESSION['user_id'];
+    if (empty($user_last_name)) {
+        $user_last_name_error = "No se ha ingresado ningún apellido";
+    } else {
+        if ($obj->Normal_Query("UPDATE users SET name = ? WHERE id = ?", [$user_last_name, $user_id])) {
+            $obj->Create_Session("user_last_name", $user_last_name);
+            $obj->Create_Session("name_updated", "su apellido se actualizó correctamente");
+            header("location:principal.php");
+        }
+    }
 }
-
-
-
-
-
-
-
 ?>
 <!doctype html>
 <!--[if lt IE 7]>      <html class="no-js lt-ie9 lt-ie8 lt-ie7" lang=""> <![endif]-->
@@ -42,7 +49,7 @@ if(isset($_POST['change_name'])) {
 <body>
         <!-- Left Panel -->
 
-    <?php include"sidebarColaborador.php" ?><!-- /#left-panel -->
+    <?php include "sidebarColaborador.php" ?><!-- /#left-panel -->
 
     <!-- Left Panel -->
 
@@ -51,7 +58,7 @@ if(isset($_POST['change_name'])) {
     <div id="right-panel" class="right-panel">
 
         <!-- Header-->
-      <?php include"header.php"?>
+      <?php include "headerColaborador.php" ?>
         <!-- Header-->
 
         <div class="breadcrumbs">
@@ -66,7 +73,7 @@ if(isset($_POST['change_name'])) {
                 <div class="page-header float-right">
                     <div class="page-title">
                         <ol class="breadcrumb text-right">
-                            <li><a href="principal.php">Inicio</a></li>
+                            <li><a href="principalColaborador.php">Inicio</a></li>
                             <li class="active">Mi perfil</a></li>
                             <li class="active">Actualizar perfil</li>
                         </ol>
@@ -86,12 +93,24 @@ if(isset($_POST['change_name'])) {
                               <div class="input-group-addon"><i class="fa fa-user"></i></div>
                               <input type="text" id="username" name="user_name" placeholder="<?php echo $_SESSION['user_name'] ?>" class="form-control">
                             </div>
-                            <?php if(isset($user_name_error)): ?>
+                            <?php if (isset($user_name_error)) : ?>
 
 <?php echo "<font color='red'>$user_name_error</font>"; ?>
 
 <?php endif; ?>
                           </div>
+                          <div class="form-group">
+                          <label for="company" class=" form-control-label">Apellido</label>
+                            <div class="input-group">
+                              <div class="input-group-addon"><i class="fa fa-user"></i></div>
+                              <input type="text" id="last_name" name="user_last_name" placeholder="<?php echo $_SESSION['user_last_name'] ?>" class="form-control">
+                            </div>
+                            <?php if (isset($user_last_name_error)) : ?>
+
+<?php echo "<font color='red'>$user_last_name_error</font>"; ?>
+
+<?php endif; ?>
+</div>
                           <div class="form-group">
                           <label for="disabled-input" class=" form-control-label">Correo electronico</label>
                             <div class="input-group">
@@ -124,8 +143,8 @@ if(isset($_POST['change_name'])) {
                             </div>
                             <div class="card-body">
                                 <div class="mx-auto d-block">
-                                    <img class="rounded-circle mx-auto d-block" src="images/<?php  echo $_SESSION['user_image']; ?>" alt="Card image cap">
-                                    <h5 class="text-sm-center mt-2 mb-1"><?php echo $_SESSION['user_name'] ?></h5>
+                                    <img class="rounded-circle mx-auto d-block" src="images/<?php echo $_SESSION['user_image']; ?>" alt="Card image cap">
+                                    <h5 class="text-sm-center mt-2 mb-1"><?php echo $_SESSION['user_name']; echo ' '; echo $_SESSION['user_last_name'];?></h5>
                                     <hr>
                                     <div class="location text-sm-center"><?php echo $_SESSION['user_email'] ?></div>
                                     <div class="location text-sm-center"><i class="fa fa-map-marker"></i> MSIH, Costa rica</div>

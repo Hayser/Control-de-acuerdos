@@ -1,6 +1,7 @@
-<?php include "init.php"; 
+<?php include "init.php";
 $obj = new base_class;
 $user_department = $_SESSION['user_deparment'];
+$user_name = $_SESSION['user_name'];
 ?>
 <!doctype html>
 <!--[if lt IE 7]>      <html class="no-js lt-ie9 lt-ie8 lt-ie7" lang=""> <![endif]-->
@@ -15,7 +16,7 @@ $user_department = $_SESSION['user_deparment'];
     <meta name="viewport" content="width=device-width, initial-scale=1">
 
     <link rel="apple-touch-icon" href="images/muni.jpg">
-    <link rel="shortcut icon" href="images/muni.jpg">
+    <link rel="shortcut icon" href="images/logoMuni.png">
 
     <link rel="stylesheet" href="assets/css/normalize.css">
     <link rel="stylesheet" href="assets/css/bootstrap.min.css">
@@ -35,7 +36,7 @@ $user_department = $_SESSION['user_deparment'];
 <body>
         <!-- Left Panel -->
 
-    <?php include "sidebarColaborador.php"?>
+    <?php include "sidebarColaborador.php" ?>
 
     <!-- Left Panel -->
 
@@ -44,14 +45,14 @@ $user_department = $_SESSION['user_deparment'];
     <div id="right-panel" class="right-panel">
 
         <!-- Header-->
-    <?php include "header.php"?>
+    <?php include "headerColaborador.php" ?>
         <!-- Header-->
 
         <div class="breadcrumbs">
             <div class="col-sm-4">
                 <div class="page-header float-left">
                     <div class="page-title">
-                        <h1>Pagina Principal</h1>
+                        <h1>Ver acuerdos</h1>
                     </div>
                 </div>
             </div>
@@ -59,8 +60,8 @@ $user_department = $_SESSION['user_deparment'];
                 <div class="page-header float-right">
                     <div class="page-title">
                         <ol class="breadcrumb text-right">
-                            <li><a href="#">Inicio</a></li>
-                            <li><a href="#">Acuerdos</a></li>
+                            <li><a href="principalColaborador.php">Inicio</a></li>
+                            <li><a class="active">Acuerdos</a></li>
                             <li class="active">Ver acuerdos</li>
                         </ol>
                     </div>
@@ -70,9 +71,9 @@ $user_department = $_SESSION['user_deparment'];
 
 <div class="col-sm-8">
 
-<?php if(isset($_SESSION['eliminar_acuerdo'])): ?>
+<?php if (isset($_SESSION['eliminar_acuerdo'])) : ?>
  <div class="sufee-alert alert with-close alert-success alert-dismissible fade show">
-    <span class="badge badge-pill badge-success">EXITO</span>
+    <span class="badge badge-pill badge-success">ÉXITO</span>
     <?php echo $_SESSION['eliminar_acuerdo']; ?>
     <button type="button" class="close" data-dismiss="alert" aria-label="Close">
      <span class="quitar"aria-hidden="true">&times;</span> </button>
@@ -80,9 +81,9 @@ $user_department = $_SESSION['user_deparment'];
      <?php endif; ?>
     <?php unset($_SESSION['eliminar_acuerdo']); ?>
 
-    <?php if(isset($_SESSION['crear_acuerdo'])): ?>
+    <?php if (isset($_SESSION['crear_acuerdo'])) : ?>
  <div class="sufee-alert alert with-close alert-success alert-dismissible fade show">
-    <span class="badge badge-pill badge-success">EXITO</span>
+    <span class="badge badge-pill badge-success">ÉXITO</span>
     <?php echo $_SESSION['crear_acuerdo']; ?>
     <button type="button" class="close" data-dismiss="alert" aria-label="Close">
      <span class="quitar"aria-hidden="true">&times;</span> </button>
@@ -90,9 +91,9 @@ $user_department = $_SESSION['user_deparment'];
      <?php endif; ?>
     <?php unset($_SESSION['crear_acuerdo']); ?>
 
-       <?php if(isset($_SESSION['asignar_departamento'])): ?>
+       <?php if (isset($_SESSION['asignar_departamento'])) : ?>
  <div class="sufee-alert alert with-close alert-success alert-dismissible fade show">
-    <span class="badge badge-pill badge-success">EXITO</span>
+    <span class="badge badge-pill badge-success">ÉXITO</span>
     <?php echo $_SESSION['asignar_departamento']; ?>
     <button type="button" class="close" data-dismiss="alert" aria-label="Close">
      <span class="quitar"aria-hidden="true">&times;</span> </button>
@@ -120,48 +121,50 @@ $user_department = $_SESSION['user_deparment'];
                       <tr>
                       
                       <th>Sesión</th>
-                      <th>Numero</th>
+                      <th>Número</th>
                       <th>Departamento(s)</th>
-                      <th>Colaboradores</th>
+                      
                       <th>Estado alcaldia</th>
                       <th>Estado jefe</th>
                       <th>Estado colaborador</th>
+                      <th>Colaborador(es)</th>
                       <th>Opciones</th>
                       
                       </tr>
                     </thead>
                     <tbody>
                     <?php
-                    
-$obj->Normal_Query("SELECT  * FROM acuerdos WHERE acuerdos.departamento like '%" . $user_department . "%'");
-$message_row=$obj-> fetch_all();
 
-foreach($message_row as $row):
-    ?> <tr>
+                    $obj->Normal_Query("SELECT * FROM acuerdos WHERE acuerdos.departamento like '%" . $user_department . "%' and acuerdos.colaboradores like '%" . $user_name . "%'");
+                    $message_row = $obj->fetch_all();
+
+                    foreach ($message_row as $row) :
+                    ?> <tr>
                                                 
                                                 
                                                 <td>
-                                                    <?php echo $row->num_sesion,"<br>";?>
+                                                    <?php echo $row->num_sesion, "<br>"; ?>
                                                 </td>
-                                                <td ><?php echo $row->num_acuerdo,"<br>";?></td>
-                                                <td ><?php echo $row->departamento,"<br>";?></td>
-                                                <td ><?php echo $row->colaboradores,"<br>";?></td>
-                                                <td><?php echo $row->estado_alcaldia,"<br>";?></td>
+                                                <td ><?php echo $row->num_acuerdo, "<br>"; ?></td>
+                                                <td ><?php echo $row->departamento, "<br>"; ?></td>
+                                                
+                                                <td><?php echo $row->estado_alcaldia, "<br>"; ?></td>
                                                 <td>
-                                                    <?php echo $row->estado_jefe,"<br>";?>
+                                                    <?php echo $row->estado_jefe, "<br>"; ?>
                                                 </td>
-                                                <td><?php echo $row->estado_colaborador,"<br>";?></td>
+                                                <td><?php echo $row->estado_colaborador, "<br>"; ?></td>
+                                                <td ><?php echo $row->colaboradores, "<br>"; ?></td>
                                                 
 
     <td>
                                                        
                                                        
                                                         <button  title="Ver acuerdo">
-                                                        <a href="editarAcuerdolCol.php?id=<?php echo $row->id?>"> <i class="fa fa-pencil"></i></a>
+                                                        <a href="editarAcuerdolCol.php?id=<?php echo $row->id ?>"> <i class="fa fa-pencil"></i></a>
                                                         </button>
 
                                                            <button  title="Descargar archivo">
-                                                        <a href="mostrarArchivo.php?path=<?php echo $row->path?>"> <i class="fa fa-download"></i></a>
+                                                        <a href="mostrarArchivo.php?path=<?php echo $row->path ?>"> <i class="fa fa-download"></i></a>
                                                         </button>
   
     </td>
@@ -169,8 +172,8 @@ foreach($message_row as $row):
     
 </tr>
 <?php
-                                        endforeach;
-                                        ?>
+endforeach;
+?>
                     </tbody>
                   </table>
                         </div>

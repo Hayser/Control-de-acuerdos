@@ -1,46 +1,46 @@
-<?php include "init.php"; 
+<?php include "init.php";
 $obj = new base_class;
 
-if(isset($_POST['change_password'])) {
+if (isset($_POST['change_password'])) {
     $current_password = $_POST['current_password'];
-	$new_password     = $_POST['new_password'];
-	$retype_password  = $_POST['retype_password'];
+    $new_password = $_POST['new_password'];
+    $retype_password = $_POST['retype_password'];
 
     $current_status = $new_status = $retype_status = 1;
 
-    if(empty($current_password)) {
-		$current_password_error = "No se ha ingresado la contraseña";
-		$current_status = "";
-	}
-
-	if(empty($new_password)) {
-		$new_password_error = "No se ha ingresado una nueva contraseña";
-		$new_status = "";
-	} else if(strlen($new_password) < 6) {
-		$new_password_error = "La contraseña debe tener al menos 6 caracteres";
-		$new_status = "";
-	}
-
-	if(empty($retype_password)) {
-		$retype_password_error = "No se ha ingresado de nuevo la contraseña";
-		$retype_status = "";
-	} else if($new_password != $retype_password) {
-		$retype_password_error = "Las contraseñas no coinciden ";
-		$retype_status = "";
+    if (empty($current_password)) {
+        $current_password_error = "No se ha ingresado la contraseña";
+        $current_status = "";
     }
-    
-    if(!empty($current_status) && !empty($new_status) && !empty($retype_status)) {
+
+    if (empty($new_password)) {
+        $new_password_error = "No se ha ingresado una nueva contraseña";
+        $new_status = "";
+    } else if (strlen($new_password) < 6) {
+        $new_password_error = "La contraseña debe tener al menos 6 caracteres";
+        $new_status = "";
+    }
+
+    if (empty($retype_password)) {
+        $retype_password_error = "No se ha ingresado de nuevo la contraseña";
+        $retype_status = "";
+    } else if ($new_password != $retype_password) {
+        $retype_password_error = "Las contraseñas no coinciden ";
+        $retype_status = "";
+    }
+
+    if (!empty($current_status) && !empty($new_status) && !empty($retype_status)) {
         $user_id = $_SESSION['user_id'];
-        if($obj->Normal_Query("SELECT password FROM users WHERE id = ?", [$user_id])) {
+        if ($obj->Normal_Query("SELECT password FROM users WHERE id = ?", [$user_id])) {
             $row = $obj->Single_Result();
             $db_password = $row->password;
-            if(password_verify($current_password, $db_password)){
-                if($obj->Normal_Query("UPDATE users SET password = ? WHERE id = ?", [password_hash($new_password,PASSWORD_DEFAULT), $user_id])) {
-                    $obj->Create_Session("password_updated", "su contraseña se cambio correctamente");
+            if (password_verify($current_password, $db_password)) {
+                if ($obj->Normal_Query("UPDATE users SET password = ? WHERE id = ?", [password_hash($new_password, PASSWORD_DEFAULT), $user_id])) {
+                    $obj->Create_Session("password_updated", "su contraseña se cambió correctamente");
                     header("location:principalColaborador.php");
                 }
 
-            }else{
+            } else {
                 $current_password_error = "Por favor ingrese la contraseña correcta";
             }
 
@@ -73,7 +73,7 @@ if(isset($_POST['change_password'])) {
 <body>
         <!-- Left Panel -->
 
-    <?php include "sidebarColaborador.php"?>
+    <?php include "sidebarColaborador.php" ?>
 
     <!-- Left Panel -->
 
@@ -82,7 +82,7 @@ if(isset($_POST['change_password'])) {
     <div id="right-panel" class="right-panel">
 
         <!-- Header-->
-        <?php include"header.php"?>
+        <?php include "headerColaborador.php" ?>
         <!-- Header-->
 
         <div class="breadcrumbs">
@@ -97,7 +97,7 @@ if(isset($_POST['change_password'])) {
                 <div class="page-header float-right">
                     <div class="page-title">
                         <ol class="breadcrumb text-right">
-                            <li><a href="principal.php">Inicio</a></li>
+                            <li><a href="principalColaborador.php">Inicio</a></li>
                             <li class="active">Mi perfil</a></li>
                             <li class="active">Cambiar Contraseña</li>
                         </ol>
@@ -117,7 +117,7 @@ if(isset($_POST['change_password'])) {
                               <div class="input-group-addon"><i class="fa fa-asterisk"></i></div>
                               <input type="password" id="password" name="current_password" placeholder="" class="form-control">
                             </div>
-                            <?php if(isset($current_password_error)): ?>
+                            <?php if (isset($current_password_error)) : ?>
 
 <?php echo "<font color='red'>$current_password_error</font>"; ?>
 
@@ -131,7 +131,7 @@ if(isset($_POST['change_password'])) {
                               
                               <input type="password" id="password" name="new_password" placeholder="" class="form-control">
                             </div>
-                            <?php if(isset($new_password_error)): ?>
+                            <?php if (isset($new_password_error)) : ?>
 
                      <?php echo "<font color='red'>$new_password_error</font>"; ?>
 
@@ -145,7 +145,7 @@ if(isset($_POST['change_password'])) {
                               
                               <input type="password" id="password" name="retype_password" placeholder="" class="form-control">
                             </div>
-                            <?php if(isset($retype_password_error)): ?>
+                            <?php if (isset($retype_password_error)) : ?>
 
                      <?php echo "<font color='red'>$retype_password_error</font>"; ?>
 

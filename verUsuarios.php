@@ -15,7 +15,7 @@ $obj = new base_class;
     <meta name="viewport" content="width=device-width, initial-scale=1">
 
     <link rel="apple-touch-icon" href="apple-icon.png">
-    <link rel="shortcut icon" href="images/muni.jpg">
+    <link rel="shortcut icon" href="images/logoMuni.png">
 
     <link rel="stylesheet" href="assets/css/normalize.css">
     <link rel="stylesheet" href="assets/css/bootstrap.min.css">

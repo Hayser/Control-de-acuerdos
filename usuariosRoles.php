@@ -1,4 +1,4 @@
-<?php include "init.php"; 
+<?php include "init.php";
 $obj = new base_class;
 
 ?>
@@ -15,7 +15,7 @@ $obj = new base_class;
     <meta name="viewport" content="width=device-width, initial-scale=1">
 
     <link rel="apple-touch-icon" href="images/muni.jpg">
-    <link rel="shortcut icon" href="images/muni.jpg">
+    <link rel="shortcut icon" href="images/logoMuni.png">
 
     <link rel="stylesheet" href="assets/css/normalize.css">
     <link rel="stylesheet" href="assets/css/bootstrap.min.css">
@@ -35,7 +35,7 @@ $obj = new base_class;
 <body>
         <!-- Left Panel -->
 
-    <?php include "sidebar.php"?>
+    <?php include "sidebar.php" ?>
 
     <!-- Left Panel -->
 
@@ -44,14 +44,14 @@ $obj = new base_class;
     <div id="right-panel" class="right-panel">
 
         <!-- Header-->
-    <?php include "header.php"?>
+    <?php include "header.php" ?>
         <!-- Header-->
 
         <div class="breadcrumbs">
             <div class="col-sm-4">
                 <div class="page-header float-left">
                     <div class="page-title">
-                        <h1>Pagina Principal</h1>
+                        <h1>Roles y permisos</h1>
                     </div>
                 </div>
             </div>
@@ -59,8 +59,8 @@ $obj = new base_class;
                 <div class="page-header float-right">
                     <div class="page-title">
                         <ol class="breadcrumb text-right">
-                            <li><a href="#">Inicio</a></li>
-                            <li><a href="#">Usuarios</a></li>
+                            <li><a href="principal.php">Inicio</a></li>
+                            <li><a class="active">Usuarios</a></li>
                             <li class="active">Roles y permisos</li>
                         </ol>
                     </div>
@@ -71,9 +71,9 @@ $obj = new base_class;
      
 
  <div class="col-sm-8">
- <?php if(isset($_SESSION['eliminar_usuarios'])): ?>
+ <?php if (isset($_SESSION['eliminar_usuarios'])) : ?>
  <div class="sufee-alert alert with-close alert-success alert-dismissible fade show">
-    <span class="badge badge-pill badge-success">EXITO</span>
+    <span class="badge badge-pill badge-success">ÉXITO</span>
     <?php echo $_SESSION['eliminar_usuarios']; ?>
     <button type="button" class="close" data-dismiss="alert" aria-label="Close">
      <span class="quitar"aria-hidden="true">&times;</span> </button>
@@ -81,9 +81,9 @@ $obj = new base_class;
      <?php endif; ?>
     <?php unset($_SESSION['eliminar_usuarios']); ?>
 
- <?php if(isset($_SESSION['rol_actualizado'])): ?>
+ <?php if (isset($_SESSION['rol_actualizado'])) : ?>
  <div class="sufee-alert alert with-close alert-success alert-dismissible fade show">
-    <span class="badge badge-pill badge-success">EXITO</span>
+    <span class="badge badge-pill badge-success">ÉXITO</span>
     <?php echo $_SESSION['rol_actualizado']; ?>
     <button type="button" class="close" data-dismiss="alert" aria-label="Close">
      <span class="quitar"aria-hidden="true">&times;</span> </button>
@@ -91,9 +91,9 @@ $obj = new base_class;
      <?php endif; ?>
     <?php unset($_SESSION['rol_actualizado']); ?>
 
-    <?php if(isset($_SESSION['dep_actualizado'])): ?>
+    <?php if (isset($_SESSION['dep_actualizado'])) : ?>
  <div class="sufee-alert alert with-close alert-success alert-dismissible fade show">
-    <span class="badge badge-pill badge-success">EXITO</span>
+    <span class="badge badge-pill badge-success">ÉXITO</span>
     <?php echo $_SESSION['dep_actualizado']; ?>
     <button type="button" class="close" data-dismiss="alert" aria-label="Close">
      <span class="quitar"aria-hidden="true">&times;</span> </button>
@@ -124,6 +124,7 @@ $obj = new base_class;
                       <tr>
                      
                       <th>Nombre</th>
+                      <th>Apellido</th>
                       <th>Email</th>
                       <th>Rol</th>
                       <th>Departamento</th>
@@ -133,30 +134,31 @@ $obj = new base_class;
                     </thead>
                     <tbody>
                     <?php
-$obj->Normal_Query("SELECT  * FROM users");
-$message_row=$obj-> fetch_all();
+                    $obj->Normal_Query("SELECT  * FROM users");
+                    $message_row = $obj->fetch_all();
 
-foreach($message_row as $row):
-    ?> <tr>
+                    foreach ($message_row as $row) :
+                    ?> <tr>
                                                 
                                                 
                                                 <td>
-                                                    <?php echo $row->name,"<br>";?>
+                                                    <?php echo $row->name, "<br>"; ?>
                                                 </td>
-                                                <td ><?php echo $row->email,"<br>";?></td>
-                                                <td ><?php echo $row->rolUsuario,"<br>";?></td>
-                                                <td><?php echo $row->departamento,"<br>";?></td>
+                                                <td ><?php echo $row->last_name, "<br>"; ?></td>
+                                                <td ><?php echo $row->email, "<br>"; ?></td>
+                                                <td ><?php echo $row->rolUsuario, "<br>"; ?></td>
+                                                <td><?php echo $row->departamento, "<br>"; ?></td>
                                                 
 
     <td>
                                                         <button  title="Editar rol y departamento">
-                                                        <a href="editarRolDepartamento.php?id=<?php echo $row->id?>">   <i class="fa fa-pencil"></i></a>
+                                                        <a href="editarRolDepartamento.php?id=<?php echo $row->id ?>">   <i class="fa fa-pencil"></i></a>
                                                         </button>
                                                         <button  title="Eliminar Usuario">
-                                                        <a href="eliminarUsuarios.php?id=<?php echo $row->id?>"> <i class="fa fa-trash"></i></a>
+                                                        <a href="eliminarUsuarios.php?id=<?php echo $row->id ?>"> <i class="fa fa-trash"></i></a>
                                                         </button>
                                                         <button  title="Ver Perfil">
-                                                        <a href="eliminarU.php?id=<?php echo $row->id?>"> <i class="fa fa-eye"></i></a>
+                                                        <a href="verPerfil.php?id=<?php echo $row->id ?>"> <i class="fa fa-eye"></i></a>
                                                         </button>
   
     </td>
@@ -164,8 +166,8 @@ foreach($message_row as $row):
     
 </tr>
 <?php
-                                        endforeach;
-                                        ?>
+endforeach;
+?>
                     </tbody>
                   </table>
                         </div>

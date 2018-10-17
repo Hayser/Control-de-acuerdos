@@ -1,4 +1,4 @@
-<?php include "init.php"; 
+<?php include "init.php";
 $obj = new base_class;
 
 ?>
@@ -15,7 +15,7 @@ $obj = new base_class;
     <meta name="viewport" content="width=device-width, initial-scale=1">
 
     <link rel="apple-touch-icon" href="images/muni.jpg">
-    <link rel="shortcut icon" href="images/muni.jpg">
+    <link rel="shortcut icon" href="images/logoMuni.png">
 
     <link rel="stylesheet" href="assets/css/normalize.css">
     <link rel="stylesheet" href="assets/css/bootstrap.min.css">
@@ -35,7 +35,7 @@ $obj = new base_class;
 <body>
         <!-- Left Panel -->
 
-    <?php include "sidebar.php"?>
+    <?php include "sidebar.php" ?>
 
     <!-- Left Panel -->
 
@@ -44,14 +44,14 @@ $obj = new base_class;
     <div id="right-panel" class="right-panel">
 
         <!-- Header-->
-    <?php include "header.php"?>
+    <?php include "header.php" ?>
         <!-- Header-->
 
         <div class="breadcrumbs">
             <div class="col-sm-4">
                 <div class="page-header float-left">
                     <div class="page-title">
-                        <h1>Pagina Principal</h1>
+                        <h1>Editar acuerdos</h1>
                     </div>
                 </div>
             </div>
@@ -59,8 +59,8 @@ $obj = new base_class;
                 <div class="page-header float-right">
                     <div class="page-title">
                         <ol class="breadcrumb text-right">
-                            <li><a href="#">Inicio</a></li>
-                            <li><a href="#">Acuerdos</a></li>
+                            <li><a href="principal.php">Inicio</a></li>
+                            <li class="active">Acuerdos</li>
                             <li class="active">Editar acuerdos</li>
                         </ol>
                     </div>
@@ -70,9 +70,9 @@ $obj = new base_class;
 
 <div class="col-sm-6">
 
-<?php if(isset($_SESSION['date_updated'])): ?>
+<?php if (isset($_SESSION['date_updated'])) : ?>
  <div class="sufee-alert alert with-close alert-success alert-dismissible fade show">
-    <span class="badge badge-pill badge-success">EXITO</span>
+    <span class="badge badge-pill badge-success">ÉXITO</span>
     <?php echo $_SESSION['date_updated']; ?>
     <button type="button" class="close" data-dismiss="alert" aria-label="Close">
      <span class="quitar"aria-hidden="true">&times;</span> </button>
@@ -99,44 +99,55 @@ $obj = new base_class;
                       <tr>
                   
                       <th>Sesión</th>
-                      <th>Numero</th>
+                      <th>Número</th>
                       <th>Departamentos</th>
-                      <th>Colaboradores</th>
-                      <th>Estado alcaldia</th>
+                    
+                      <th>Estado alcaldía</th>
                       <th>Estado jefe</th>
+                      <th>Estado colaborador</th>
+                      <th>Colaboradores</th>
                       <th>Opciones</th>
                       
                       </tr>
                     </thead>
                     <tbody>
                     <?php
-$obj->Normal_Query("SELECT  * FROM acuerdos");
-$message_row=$obj-> fetch_all();
+                    $fullUrl = "https://$_SERVER[HTTP_HOST]$_SERVER[REQUEST_URI]";
 
-foreach($message_row as $row):
-    ?> <tr>
+                    if (strpos($fullUrl, "editarAcuerdo=buscar") == true) {
+                        
+                    }
+                    $obj->Normal_Query("SELECT * FROM acuerdos");
+                    $message_row = $obj->fetch_all();
+
+                    foreach ($message_row as $row) :
+                    ?> <tr>
                                                 
                                               
                                                 <td>
-                                                    <?php echo $row->num_sesion,"<br>";?>
+                                                    <?php echo $row->num_sesion, "<br>"; ?>
                                                 </td>
-                                                <td ><?php echo $row->num_acuerdo,"<br>";?></td>
-                                                <td ><?php echo $row->departamento,"<br>";?></td>
-                                                <td ><?php echo $row->colaboradores,"<br>";?></td>
-                                                <td><?php echo $row->estado_alcaldia,"<br>";?></td>
+                                                <td ><?php echo $row->num_acuerdo, "<br>"; ?></td>
+                                                <td ><?php echo $row->departamento, "<br>"; ?></td>
+                                                
+                                                <td><?php echo $row->estado_alcaldia, "<br>"; ?></td>
                                                 <td>
-                                                    <?php echo $row->estado_jefe,"<br>";?>
+                                                    <?php echo $row->estado_jefe, "<br>"; ?>
                                                 </td>
+                                                <td>
+                                                    <?php echo $row->estado_colaborador, "<br>"; ?>
+                                                </td>
+                                                <td ><?php echo $row->colaboradores, "<br>"; ?></td>
 
     <td>
-                                                        <button  title="Editar fecha de finiquito">
-                                                        <a href="editarFecha.php?id=<?php echo $row->id?>">   <i class="fa fa-pencil"></i></a>
+                                                        <button  title="Editar fecha de finiquito y estado">
+                                                        <a href="editarFecha.php?id=<?php echo $row->id ?>">   <i class="fa fa-pencil"></i></a>
                                                         </button>
                                                         <button  title="Eliminar">
-                                                        <a href="eliminarAcuerdo.php?id=<?php echo $row->id?>"> <i class="fa fa-trash"></i></a>
+                                                        <a href="eliminarAcuerdo.php?id=<?php echo $row->id ?>"> <i class="fa fa-trash"></i></a>
                                                         </button>
                                                         <button  title="Descargar archivo">
-                                                        <a href="mostrarArchivo.php?path=<?php echo $row->path?>"> <i class="fa fa-download"></i></a>
+                                                        <a href="mostrarArchivo.php?path=<?php echo $row->path ?>"> <i class="fa fa-download"></i></a>
                                                         </button>
   
     </td>
@@ -144,8 +155,8 @@ foreach($message_row as $row):
     
 </tr>
 <?php
-                                        endforeach;
-                                        ?>
+endforeach;
+?>
                     </tbody>
                   </table>
                         </div>
@@ -184,7 +195,6 @@ foreach($message_row as $row):
     <script src="assets/js/lib/data-table/buttons.print.min.js"></script>
     <script src="assets/js/lib/data-table/buttons.colVis.min.js"></script>
     <script src="assets/js/lib/data-table/datatables-init.js"></script>
-
 
     <script type="text/javascript">
         $(document).ready(function() {

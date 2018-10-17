@@ -1,26 +1,57 @@
-<?php include "init.php"; 
+<?php include "init.php";
 $obj = new base_class;
 
+if (isset($_POST['asiganarDepartamento'])) {
 
-
-if(isset($_POST['asiganarDepartamento'])) {
-  
-    $education=$_REQUEST["education"];
-    $value=implode("<br>",$education);
+    $education = $_REQUEST["education"];
+    $value = implode("<br>", $education);
     $id = $_GET['id'];
 
-    if($obj->Normal_Query("UPDATE acuerdos SET departamento = ? WHERE id = ?", [$value, $id])){
-      
-        $obj->Create_Session("asignar_departamento", "Se asigno correctamente el acuerdo a(los) nuevo(s) departamento(s)");
+    if ($obj->Normal_Query("UPDATE acuerdos SET departamento = ? WHERE id = ?", [$value, $id])) {
+
+        $obj->Create_Session("asignar_departamento", "Se asignó correctamente el acuerdo a(los) nuevo(s) departamento(s)");
         header("location:verAcuerdos.php");
-}
-}
+        $obj->Normal_Query("UPDATE acuerdos SET estado_alcaldia = ? WHERE id = ?", ['Asignado a departamento', $id]);
+    }
+    $id = $_GET['id'];
+$obj->Normal_Query("SELECT  * FROM acuerdos WHERE id=$id");
+$row = $obj->Single_Result();
+
+$mensaje="Se asigno el acuerdo con número de sesión: ";
+$mensaje1=" y numero de acuerdo:";
+$mensaje2=" al departamento(s) de:";
+$num_sesion= $row->num_sesion;
+$num_acuerdo= $row->num_acuerdo;
+$asunto="No contestar a este correo* se asigno un acuerdo en el sistema";
+require 'PHPMailer-master/PHPMailerAutoload.php';
+date_default_timezone_set('America/Costa_Rica');
+
+$fecha = strftime("%A, %d  %B  %Y %H:%M");
+$espacio="<br>";
 
 
+
+$mail = new PHPMailer();
+$mail ->IsSmtp();
+$mail ->SMTPDebug = 0;
+$mail ->SMTPAuth = true;
+$mail ->SMTPSecure = 'ssl';
+$mail ->Host = "smtp.gmail.com";
+$mail ->Port = 465; // or 587
+$mail ->IsHTML(true);
+$mail ->Username = "infomunicipalidadsanisidro@gmail.com";
+$mail ->Password = "Daykel1511";
+$mail ->SetFrom("infomunicipalidadsanisidro@gmail.com");
+$mail ->Subject = $asunto;
+$mail ->Body = $mensaje.$num_sesion.$mensaje1.$num_acuerdo.$mensaje2.$espacio.$value.$espacio.$espacio.$fecha;
+$mail ->AddAddress($_SESSION['user_email']);
+
+if(!$mail->Send())
+{
+   echo "No se pudo enviar el correo electronico";
+}
+}
 ?>
-
-
-
 
 <!doctype html>
 <!--[if lt IE 7]>      <html class="no-js lt-ie9 lt-ie8 lt-ie7" lang=""> <![endif]-->
@@ -35,7 +66,7 @@ if(isset($_POST['asiganarDepartamento'])) {
     <meta name="viewport" content="width=device-width, initial-scale=1">
 
     <link rel="apple-touch-icon" href="images/muni.jpg">
-    <link rel="shortcut icon" href="images/muni.jpg">
+    <link rel="shortcut icon" href="images/logoMuni.png">
 
     <link rel="stylesheet" href="assets/css/normalize.css">
     <link rel="stylesheet" href="assets/css/bootstrap.min.css">
@@ -55,7 +86,7 @@ if(isset($_POST['asiganarDepartamento'])) {
 <body>
         <!-- Left Panel -->
 
-         <?php include "sidebar.php"?>
+         <?php include "sidebar.php" ?>
 
     <!-- Left Panel -->
 
@@ -64,7 +95,7 @@ if(isset($_POST['asiganarDepartamento'])) {
     <div id="right-panel" class="right-panel">
 
         <!-- Header-->
-        <?php include "header.php"?>
+        <?php include "header.php" ?>
         <!-- Header-->
 
         <div class="breadcrumbs">
@@ -79,8 +110,8 @@ if(isset($_POST['asiganarDepartamento'])) {
                 <div class="page-header float-right">
                     <div class="page-title">
                         <ol class="breadcrumb text-right">
-                            <li><a href="#">Inicio</a></li>
-                            <li><a href="#">Acuerdos</a></li>
+                            <li><a href="principal.php">Inicio</a></li>
+                            <li><a class="active">Acuerdos</a></li>
                             <li class="active">Asignar acuerdos</li>
                         </ol>
                     </div>
@@ -97,10 +128,10 @@ if(isset($_POST['asiganarDepartamento'])) {
                 <div class="col-lg-7">
                     <div class="card">
                     <?php
-$id = $_GET['id'];
-$obj->Normal_Query("SELECT  * FROM acuerdos WHERE id=$id");
-$row = $obj->Single_Result();
-?>
+                    $id = $_GET['id'];
+                    $obj->Normal_Query("SELECT  * FROM acuerdos WHERE id=$id");
+                    $row = $obj->Single_Result();
+                    ?>
                       <div class="card-header">Puede escoger entre 1 o varios departamentos </div>
                       <div class="card-body card-block">
                         <form action="" method="post" class="">
@@ -114,8 +145,8 @@ $row = $obj->Single_Result();
 
                                   <select  name="education[]" data-placeholder="Escoga el departamento(s)" multiple class="standardSelect">
                                                         <option value=""></option>
-                                                        <option value="Alcaldia">Alcaldia</option>
-                                                        <option value="Proveduría">Proveduría</option>
+                                                        <option value="Alcaldia">Alcaldía</option>
+                                                        <option value="Proveduría">Proveeduría</option>
                                                         <option value="Recursos Humanos">Recursos Humanos</option>
                                                         <option value="Gestión Social">Gestión Social</option>
                                                         <option value="Departamento Legal">Departamento Legal</option>
@@ -129,49 +160,37 @@ $row = $obj->Single_Result();
                             </div>
                         </div>
 
-
-
-
-
-
-
                         <div class="form-group">
-                          <label  for="disabled-input" class=" form-control-label">Numero de sesión</label>
+                          <label  for="disabled-input" class=" form-control-label">Número de sesión</label>
                             <div class="input-group">
                               <div class="input-group-addon"><i class="fa fa-archive"></i></div>
-                              <input type="text" id="disabled-input" name="disabled-input" placeholder="<?php echo $row->num_sesion;?>" disabled="" class="form-control">
+                              <input type="text" id="disabled-input" name="disabled-input" placeholder="<?php echo $row->num_sesion; ?>" disabled="" class="form-control">
                             </div>
                           </div>
-
 
                           <div class="form-group">
-                          <label  for="disabled-input" class=" form-control-label">Numero de acuerdo</label>
+                          <label  for="disabled-input" class=" form-control-label">Número de acuerdo</label>
                             <div class="input-group">
                               <div class="input-group-addon"><i class="fa fa-archive"></i></div>
-                              <input type="text" id="disabled-input" name="disabled-input" placeholder="<?php echo $row->num_acuerdo;?>" disabled="" class="form-control">
+                              <input type="text" id="disabled-input" name="disabled-input" placeholder="<?php echo $row->num_acuerdo; ?>" disabled="" class="form-control">
                             </div>
                           </div>
-
 
                           <div class="form-group">
                           <label  for="disabled-input" class=" form-control-label">Fecha de creación</label>
                             <div class="input-group">
                               <div class="input-group-addon"><i class="fa fa-archive"></i></div>
-                              <input type="text" id="disabled-input" name="disabled-input" placeholder="<?php echo $row->fecha_creacion;?>" disabled="" class="form-control">
+                              <input type="text" id="disabled-input" name="disabled-input" placeholder="<?php echo $row->fecha_creacion; ?>" disabled="" class="form-control">
                             </div>
                           </div>
 
                         <div class="form-group">
-                          <label  for="disabled-input" class=" form-control-label">fecha de finiquito</label>
+                          <label  for="disabled-input" class=" form-control-label">Fecha de finiquito</label>
                             <div class="input-group">
                               <div class="input-group-addon"><i class="fa fa-archive"></i></div>
-                              <input type="text" id="disabled-input" name="disabled-input" placeholder="<?php echo $row->fecha_finiquito;?>" disabled="" class="form-control">
+                              <input type="text" id="disabled-input" name="disabled-input" placeholder="<?php echo $row->fecha_finiquito; ?>" disabled="" class="form-control">
                             </div>
                           </div>
-                          
-
-                    
-
 
                           <div class="form-actions form-group"><button type="submit" name="asiganarDepartamento" class="btn btn-success btn-md"><i class="fa fa-check"></i>&nbsp;Asignar acuerdo</button>
                           <button type="submit" class="btn btn-danger btn-md"><i class="fa fa-ban"></i>&nbsp;Reinicar campos</button>
@@ -182,11 +201,9 @@ $row = $obj->Single_Result();
                     </div>
                   </div>
 
-
     </div><!-- /#right-panel -->
 
     <!-- Right Panel -->
-
 
     <script src="assets/js/vendor/jquery-2.1.4.min.js"></script>
     <script src="assets/js/popper.min.js"></script>

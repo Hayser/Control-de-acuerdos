@@ -1,25 +1,25 @@
-<?php include "init.php"; 
+<?php include "init.php";
 $obj = new base_class;
 
-if(isset($_POST['change_image'])) {
-    $img_name  = $_FILES['change_image']['name'];
-    $img_tmp   = $_FILES['change_image']['tmp_name'];
-    $img_path  = "images/";
+if (isset($_POST['change_image'])) {
+    $img_name = $_FILES['change_image']['name'];
+    $img_tmp = $_FILES['change_image']['tmp_name'];
+    $img_path = "images/";
     $extensions = ['jpg', 'jpeg', 'png'];
-    $img_ext   = explode(".", $img_name);
+    $img_ext = explode(".", $img_name);
     $img_extension = end($img_ext);
 
-    if(empty($img_name)) {
-        $img_error  = "No se escogio ninguna imagen";
-    }else if(!in_array($img_extension, $extensions)) {
+    if (empty($img_name)) {
+        $img_error = "No se escogio ninguna imagen";
+    } else if (!in_array($img_extension, $extensions)) {
         $img_error = "Seleccione un formato de imagen valido";
-    }else {
+    } else {
         $user_id = $_SESSION['user_id'];
-        move_uploaded_file($img_tmp , "$img_path/$img_name");
-        if($obj->Normal_Query("UPDATE users SET image = ? WHERE id = ?", [$img_name, $user_id])){
+        move_uploaded_file($img_tmp, "$img_path/$img_name");
+        if ($obj->Normal_Query("UPDATE users SET image = ? WHERE id = ?", [$img_name, $user_id])) {
             $obj->Create_Session("user_image", $img_name);
-            $obj->Create_Session("update_image", "su foto de perfil se actualizo correctamente");
-   		    header("location:principalColaborador.php");
+            $obj->Create_Session("update_image", "su foto de perfil se actualizó correctamente");
+            header("location:principalColaborador.php");
         }
     }
 
@@ -60,7 +60,7 @@ legend
 <body>
         <!-- Left Panel -->
 
-    <?php include"sidebarColaborador.php" ?>
+    <?php include "sidebarColaborador.php" ?>
 
     <!-- Left Panel -->
 
@@ -69,7 +69,7 @@ legend
     <div id="right-panel" class="right-panel">
 
         <!-- Header-->
-        <?php include"header.php"?>
+        <?php include "headerColaborador.php" ?>
         <!-- Header-->
 
         <div class="breadcrumbs">
@@ -84,7 +84,7 @@ legend
                 <div class="page-header float-right">
                     <div class="page-title">
                         <ol class="breadcrumb text-right">
-                        <li><a href="principal.php">Inicio</a></li>
+                        <li><a href="principalColaborador.php">Inicio</a></li>
                             <li class="active">Mi perfil</a></li>
                             <li class="active">Cambiar foto</li>
                         </ol>

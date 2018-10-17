@@ -18,7 +18,7 @@ if(isset($_POST['change_image'])) {
         move_uploaded_file($img_tmp , "$img_path/$img_name");
         if($obj->Normal_Query("UPDATE users SET image = ? WHERE id = ?", [$img_name, $user_id])){
             $obj->Create_Session("user_image", $img_name);
-            $obj->Create_Session("update_image", "su foto de perfil se actualizo correctamente");
+            $obj->Create_Session("update_image", "su foto de perfil se actualizó correctamente");
    		    header("location:principalJefe.php");
         }
     }
@@ -60,7 +60,7 @@ legend
 <body>
         <!-- Left Panel -->
 
-    <?php include"sidebarJefe.php" ?>
+    <?php include "sidebarJefe.php" ?>
 
     <!-- Left Panel -->
 
@@ -69,7 +69,7 @@ legend
     <div id="right-panel" class="right-panel">
 
         <!-- Header-->
-        <?php include"header.php"?>
+        <?php include "headerJefe.php"?>
         <!-- Header-->
 
         <div class="breadcrumbs">
@@ -84,7 +84,7 @@ legend
                 <div class="page-header float-right">
                     <div class="page-title">
                         <ol class="breadcrumb text-right">
-                        <li><a href="principal.php">Inicio</a></li>
+                        <li><a href="principalJefe.php">Inicio</a></li>
                             <li class="active">Mi perfil</a></li>
                             <li class="active">Cambiar foto</li>
                         </ol>

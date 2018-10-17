@@ -5,14 +5,14 @@
                 <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#main-menu" aria-controls="main-menu" aria-expanded="false" aria-label="Toggle navigation">
                     <i class="fa fa-bars"></i>
                 </button>
-                <a class="navbar-brand" href="#">Control de acuerdos</a>
-                <a class="navbar-brand hidden" href="#">CDA</a>
+                <a class="navbar-brand" href="principal.php">Control de acuerdos</a>
+                <a class="navbar-brand hidden" href="principal.php">CDA</a>
             </div>
 
             <div id="main-menu" class="main-menu collapse navbar-collapse">
                 <ul class="nav navbar-nav">
                     <li>
-                        <a href="principal.php"> <i class="menu-icon fa fa-home"></i>Pagina principal </a>
+                        <a href="principal.php"> <i class="menu-icon fa fa-home"></i>Página principal </a>
                     </li>
 
                     <h3 class="menu-title">Mi perfil</h3><!-- /.menu-title -->
@@ -22,13 +22,9 @@
                             <li><i class="fa fa-user"></i><a href="perfil.php">Actualizar perfil</a></li>
                             <li><i class="fa fa-lock"></i><a href="cambioContraseña.php">Cambiar contraseña</a></li>
                             <li><i class="fa fa-id-badge"></i><a href="cambiarFoto.php">Cambiar foto</a></li>
-                           
-                         
                         </ul>
                     </li>
                   
-                   
-
                     <h3 class="menu-title">Acuerdos</h3><!-- /.menu-title -->
 
                     <li class="menu-item-has-children dropdown">
@@ -49,6 +45,9 @@
                      <h3 class="menu-title">Ayuda</h3><!-- /.menu-title -->
                     <li>
                         <a href="preguntasRespuestas.php"> <i class="menu-icon fa  fa-question-circle"></i>Preguntas frecuentes </a>
+                    </li>
+                    <li>
+                        <a href="avisos.php"> <i class="menu-icon fa  fa-envelope"></i>Enviar avisos </a>
                     </li>
 
 

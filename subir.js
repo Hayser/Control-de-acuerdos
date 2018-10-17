@@ -1,4 +1,4 @@
-(function() {
+(function () {
 
 	// getElementById
 	function $id(id) {
@@ -52,7 +52,7 @@
 		// display an image
 		if (file.type.indexOf("image") == 0) {
 			var reader = new FileReader();
-			reader.onload = function(e) {
+			reader.onload = function (e) {
 				Output(
 					"<p><strong>" + file.name + ":</strong><br />" +
 					'<img src="' + e.target.result + '" /></p>'
@@ -64,7 +64,7 @@
 		// display text
 		if (file.type.indexOf("text") == 0) {
 			var reader = new FileReader();
-			reader.onload = function(e) {
+			reader.onload = function (e) {
 				Output(
 					"<p><strong>" + file.name + ":</strong></p><pre>" +
 					e.target.result.replace(/</g, "&lt;").replace(/>/g, "&gt;") +
@@ -93,13 +93,13 @@
 
 
 			// progress bar
-			xhr.upload.addEventListener("progress", function(e) {
+			xhr.upload.addEventListener("progress", function (e) {
 				var pc = parseInt(100 - (e.loaded / e.total * 100));
 				progress.style.backgroundPosition = pc + "% 0";
 			}, false);
 
 			// file received/failed
-			xhr.onreadystatechange = function(e) {
+			xhr.onreadystatechange = function (e) {
 				if (xhr.readyState == 4) {
 					progress.className = (xhr.status == 200 ? "success" : "failure");
 				}
@@ -110,9 +110,9 @@
 			xhr.setRequestHeader("X_FILENAME", file.name);
 			xhr.send(file);
 
-        }
-        
-        
+		}
+
+
 
 	}
 

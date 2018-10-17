@@ -10,9 +10,46 @@ if(isset($_POST['asiganarColaborador'])) {
     $id = $_GET['id'];
 
     if($obj->Normal_Query("UPDATE acuerdos SET colaboradores = ? WHERE id = ?", [$value, $id])){
-      
-        $obj->Create_Session("asiganar_colaborador", "Se asigno correctamente el o los colaboradores al acuerdo");
+        $obj->Normal_Query("UPDATE acuerdos SET estado_jefe = ? WHERE id = ?", ['Asignado a colaborador', $id]);
+        $obj->Create_Session("asiganar_colaborador", "Se asignó correctamente el o los colaboradores al acuerdo");
         header("location:verColaboradores.php");
+}
+$id = $_GET['id'];
+$obj->Normal_Query("SELECT  * FROM acuerdos WHERE id=$id");
+$row = $obj->Single_Result();
+
+$mensaje="Se asigno el acuerdo con número de sesión: ";
+$mensaje1=" y numero de acuerdo:";
+$mensaje2=" al colaborador(s) de:";
+$num_sesion= $row->num_sesion;
+$num_acuerdo= $row->num_acuerdo;
+$asunto="No contestar a este correo* se asigno un acuerdo en el sistema";
+require 'PHPMailer-master/PHPMailerAutoload.php';
+date_default_timezone_set('America/Costa_Rica');
+
+$fecha = strftime("%A, %d  %B  %Y %H:%M");
+$espacio="<br>";
+
+
+
+$mail = new PHPMailer();
+$mail ->IsSmtp();
+$mail ->SMTPDebug = 0;
+$mail ->SMTPAuth = true;
+$mail ->SMTPSecure = 'ssl';
+$mail ->Host = "smtp.gmail.com";
+$mail ->Port = 465; // or 587
+$mail ->IsHTML(true);
+$mail ->Username = "infomunicipalidadsanisidro@gmail.com";
+$mail ->Password = "Daykel1511";
+$mail ->SetFrom("infomunicipalidadsanisidro@gmail.com");
+$mail ->Subject = $asunto;
+$mail ->Body = $mensaje.$num_sesion.$mensaje1.$num_acuerdo.$mensaje2.$espacio.$value.$espacio.$espacio.$fecha;
+$mail ->AddAddress($_SESSION['user_email']);
+
+if(!$mail->Send())
+{
+   echo "No se pudo enviar el correo electronico";
 }
 }
 
@@ -23,25 +60,25 @@ if(isset($_POST['change_est'])) {
     $id = $_GET['id'];
 
     if($obj->Normal_Query("UPDATE acuerdos SET estado_jefe = ? WHERE id = ?", [$estado_jefe, $id])){
+
+        $obj->Normal_Query("SELECT * FROM `acuerdos` WHERE id = ?", [$id]);
+        $obj->Count_Rows();
+        $row = $obj->Single_Result();
+        $num = $row->num_acuerdo;
+        $dep = $row->departamento;
+
+        $obj->Normal_Query("INSERT INTO notificaciones (num_acuerdo, departamento, estado_jefe) 
+                            VALUES (?,?,?)", [$num, $dep, $estado_jefe]);
+
         $obj->Create_Session("fecha_acuerdo", $estado_jefe);
-        $obj->Create_Session("estado_jefe", "Se actualizo correctamente el estado del acuerdo");
+        $obj->Create_Session("estado_jefe", "Se actualizó correctamente el estado del acuerdo");
         header("location:verColaboradores.php");
 }
+
 }
-
-
-
-
 $user_department = $_SESSION['user_deparment'];
-
-
-
 $user_rol = 'Colaborador';
-
 ?>
-
-
-
 
 <!doctype html>
 <!--[if lt IE 7]>      <html class="no-js lt-ie9 lt-ie8 lt-ie7" lang=""> <![endif]-->
@@ -56,7 +93,7 @@ $user_rol = 'Colaborador';
     <meta name="viewport" content="width=device-width, initial-scale=1">
 
     <link rel="apple-touch-icon" href="images/muni.jpg">
-    <link rel="shortcut icon" href="images/muni.jpg">
+    <link rel="shortcut icon" href="images/logoMuni.png">
 
     <link rel="stylesheet" href="assets/css/normalize.css">
     <link rel="stylesheet" href="assets/css/bootstrap.min.css">
@@ -85,7 +122,7 @@ $user_rol = 'Colaborador';
     <div id="right-panel" class="right-panel">
 
         <!-- Header-->
-        <?php include "header.php"?>
+        <?php include "headerJefe.php"?>
         <!-- Header-->
 
         <div class="breadcrumbs">
@@ -100,8 +137,8 @@ $user_rol = 'Colaborador';
                 <div class="page-header float-right">
                     <div class="page-title">
                         <ol class="breadcrumb text-right">
-                            <li><a href="#">Inicio</a></li>
-                            <li><a href="#">Acuerdos</a></li>
+                            <li><a href="principal.php">Inicio</a></li>
+                            <li><a class="active">Acuerdos</a></li>
                             <li class="active">Asignar colaboradores</li>
                         </ol>
                     </div>
@@ -141,7 +178,7 @@ $row = $obj->Single_Result();
                                                     $message_option = $obj->fetch_all();
                                                     foreach ($message_option as $option) :
                                                     ?>
-                                                    <option value="<?php echo $option->name; ?>"><?php echo $option->name, "<br>"; ?></option>
+                                                    <option value="<?php echo $option->name; ?>"><?php echo $option->name; echo ' '; echo $option->last_name, "<br>"; ?></option>
                                                     <?php 
                                                     endforeach;
                                                     ?>
@@ -150,23 +187,16 @@ $row = $obj->Single_Result();
                             </div>
                         </div>
 
-
-
-
-
-
-
                         <div class="form-group">
-                          <label  for="disabled-input" class=" form-control-label">Numero de sesión</label>
+                          <label  for="disabled-input" class=" form-control-label">Número de sesión</label>
                             <div class="input-group">
                               <div class="input-group-addon"><i class="fa fa-archive"></i></div>
                               <input type="text" id="disabled-input" name="disabled-input" placeholder="<?php echo $row->num_sesion;?>" disabled="" class="form-control">
                             </div>
                           </div>
 
-
                           <div class="form-group">
-                          <label  for="disabled-input" class=" form-control-label">Numero de acuerdo</label>
+                          <label  for="disabled-input" class=" form-control-label">Número de acuerdo</label>
                             <div class="input-group">
                               <div class="input-group-addon"><i class="fa fa-archive"></i></div>
                               <input type="text" id="disabled-input" name="disabled-input" placeholder="<?php echo $row->num_acuerdo;?>" disabled="" class="form-control">
@@ -178,7 +208,6 @@ $row = $obj->Single_Result();
                             <div class="col-12 col-md-12"><textarea name="disabled-input"" id="disabled-input" rows="9" placeholder="<?php echo $row->descripcion;?>"  disabled="" class="form-control"></textarea></div>
                           </div>
 
-
                           <div class="form-group">
                           <label  for="disabled-input" class=" form-control-label">Fecha de creación</label>
                             <div class="input-group">
@@ -188,17 +217,13 @@ $row = $obj->Single_Result();
                           </div>
 
                         <div class="form-group">
-                          <label  for="disabled-input" class=" form-control-label">fecha de finiquito</label>
+                          <label  for="disabled-input" class=" form-control-label">Fecha de finiquito</label>
                             <div class="input-group">
                               <div class="input-group-addon"><i class="fa fa-archive"></i></div>
                               <input type="text" id="disabled-input" name="disabled-input" placeholder="<?php echo $row->fecha_finiquito;?>" disabled="" class="form-control">
                             </div>
                           </div>
                           
-
-                    
-
-
                           <div class="form-actions form-group"><button type="submit" name="asiganarColaborador" class="btn btn-success btn-md"><i class="fa fa-check"></i>&nbsp;Asignar acuerdo</button>
                           <button type="submit" class="btn btn-danger btn-md"><i class="fa fa-ban"></i>&nbsp;Reinicar campos</button>
                         </div>
@@ -206,8 +231,6 @@ $row = $obj->Single_Result();
                         </form>
                       </div>
                     </div>
-
-
                     
                   </div>
 
@@ -234,9 +257,6 @@ $row = $obj->Single_Result();
 
         </div>
     </div>
-
-     
-      
       
       <div class="form-actions form-group"><button type="submit" name="change_est" class="btn btn-success btn-md"><i class="fa fa-check"></i>&nbsp;Actualizar Estado</button>
       <button type="button" class="btn btn-danger btn-md" onClick="funcion_reiniciar();"><i class="fa fa-ban"></i>&nbsp;Reinicar campos</button>
@@ -246,13 +266,10 @@ $row = $obj->Single_Result();
   </div>
 </div>
 </div>
-                  
-
 
     </div><!-- /#right-panel -->
 
     <!-- Right Panel -->
-
 
     <script src="assets/js/vendor/jquery-2.1.4.min.js"></script>
     <script src="assets/js/popper.min.js"></script>

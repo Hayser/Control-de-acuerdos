@@ -5,14 +5,14 @@
                 <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#main-menu" aria-controls="main-menu" aria-expanded="false" aria-label="Toggle navigation">
                     <i class="fa fa-bars"></i>
                 </button>
-                <a class="navbar-brand" href="#">Control de acuerdos</a>
-                <a class="navbar-brand hidden" href="#">CDA</a>
+                <a class="navbar-brand" href="principalJefe.php">Control de acuerdos</a>
+                <a class="navbar-brand hidden" href="principalJefe.php">CDA</a>
             </div>
 
             <div id="main-menu" class="main-menu collapse navbar-collapse">
                 <ul class="nav navbar-nav">
                     <li>
-                        <a href="principalJefe.php"> <i class="menu-icon fa fa-home"></i>Pagina principal </a>
+                        <a href="principalJefe.php"> <i class="menu-icon fa fa-home"></i>Página principal </a>
                     </li>
 
                     <h3 class="menu-title">Mi perfil</h3><!-- /.menu-title -->

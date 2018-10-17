@@ -1,0 +1,43 @@
+<div class="row m-t-30">
+                            <div class="col-md-12">
+                                <!-- DATA TABLE-->
+                                <div class="table-responsive m-b-40">
+                                    <table class="table table-borderless table-data3">
+                                        <thead>
+                                            <tr>
+                                                <th>Id</th>
+                                                <th>sesión</th>
+                                                <th>Acuerdo</th>
+                                                <th>Departamento</th>
+                                                
+                                                <th>Creacion</th>
+                                                <th>Finiquito</th>
+
+                                            </tr>
+                                        </thead>
+                                        <tbody>
+                                        <?php
+$obj->Normal_Query("SELECT  * FROM acuerdos");
+$message_row=$obj-> fetch_all();
+
+foreach($message_row as $row):
+    ?>
+                                            <tr>
+                                                <td><?php echo $row->id,"<br>";?></td>
+                                                <td><?php echo $row->num_sesion,"<br>";?></td>
+                                                <td><?php echo $row->num_acuerdo,"<br>";?></td>
+                                                <td><?php echo $row->departamento,"<br>";?></td>
+                                                
+                                                <td><?php echo $row->fecha_creacion,"<br>";?></td>
+                                                <td><?php echo $row->fecha_finiquito,"<br>";?></td>
+                                               
+                                            </tr>
+                                            <?php
+                                        endforeach;
+                                        ?>
+                                        </tbody>
+                                    </table>
+                                </div>
+                                <!-- END DATA TABLE-->
+                            </div>
+</div>

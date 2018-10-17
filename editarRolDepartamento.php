@@ -1,34 +1,27 @@
-<?php include "init.php"; 
+<?php include "init.php";
 $obj = new base_class;
 
+if (isset($_POST['change_rol'])) {
+    $Rol = $_POST['Rol'];
+    $id = $_GET['id'];
 
-if(isset($_POST['change_rol'])) {
-  $Rol = $_POST['Rol'];
-  $id = $_GET['id'];
-
-  if($obj->Normal_Query("UPDATE users SET rolUsuario = ? WHERE id = ?", [$Rol, $id])){
-      $obj->Create_Session("rol_actualizado", $Rol);
-      $obj->Create_Session("rol_actualizado", "Se actualizo correctamente el rol usuario");
-      header("location:usuariosRoles.php");
-}
-}
-
-if(isset($_POST['change_dep'])) {
-  $dep = $_POST['dep'];
-  $id = $_GET['id'];
-
-  if($obj->Normal_Query("UPDATE users SET departamento = ? WHERE id = ?", [$dep, $id])){
-      $obj->Create_Session("dep_actualizado", $dep);
-      $obj->Create_Session("dep_actualizado", "Se actualizo correctamente el departamento del usuario");
-      header("location:usuariosRoles.php");
-}
+    if ($obj->Normal_Query("UPDATE users SET rolUsuario = ? WHERE id = ?", [$Rol, $id])) {
+        $obj->Create_Session("rol_actualizado", $Rol);
+        $obj->Create_Session("rol_actualizado", "Se actualizó correctamente el rol usuario");
+        header("location:usuariosRoles.php");
+    }
 }
 
+if (isset($_POST['change_dep'])) {
+    $dep = $_POST['dep'];
+    $id = $_GET['id'];
 
-
-
-
-
+    if ($obj->Normal_Query("UPDATE users SET departamento = ? WHERE id = ?", [$dep, $id])) {
+        $obj->Create_Session("dep_actualizado", $dep);
+        $obj->Create_Session("dep_actualizado", "Se actualizó correctamente el departamento del usuario");
+        header("location:usuariosRoles.php");
+    }
+}
 ?>
 <!doctype html>
 <!--[if lt IE 7]>      <html class="no-js lt-ie9 lt-ie8 lt-ie7" lang=""> <![endif]-->
@@ -49,7 +42,7 @@ if(isset($_POST['change_dep'])) {
 <body>
         <!-- Left Panel -->
 
-    <?php include"sidebar.php" ?><!-- /#left-panel -->
+    <?php include "sidebar.php" ?><!-- /#left-panel -->
 
     <!-- Left Panel -->
 
@@ -58,7 +51,7 @@ if(isset($_POST['change_dep'])) {
     <div id="right-panel" class="right-panel">
 
         <!-- Header-->
-      <?php include"header.php"?>
+      <?php include "header.php" ?>
         <!-- Header-->
 
         <div class="breadcrumbs">
@@ -101,7 +94,7 @@ $row = $obj->Single_Result();
 
                                   <select   name="Rol" data-placeholder="Escoga el rol de usuario" multiple class="standardSelect">
                                                         <option value=""></option>
-                                                        <option value="Alcaldia">Alcaldia</option>
+                                                        <option value="Alcaldia">Alcaldía</option>
                                                         <option value="Admin">Admin</option>
                                                         <option value="Jefe de departamento">Jefe de departamento</option>
                                                         <option value="Colaborador">Colaborador</option>
@@ -112,39 +105,40 @@ $row = $obj->Single_Result();
                             </div>
                         </div>
 
-
-
-
-
-
-
-
-
-                        
                         <div class="form-group">
-                          <label for="disabled-input" class=" form-control-label">Nombre</label>
+                          <label for="disabled-input" class=" form-control-label">Nombre completo</label>
                             <div class="input-group">
                                 
                               <div class="input-group-addon"><i class="fa fa-envelope"></i></div>
                               
-                              <input type="text"  id="disabled-input" name="disabled-input" placeholder="<?php echo $row->name;?>" disabled=""class="form-control">
+                              <input type="text"  id="disabled-input" name="disabled-input" placeholder="<?php echo $row->name; echo ' '; echo $row->last_name;?>" disabled=""class="form-control">
                             </div>
                           </div>
-                  
-                          <div class="form-group">
-                          <label for="disabled-input" class=" form-control-label">Correo electronico</label>
+
+                          <!-- <div class="form-group">
+                          <label for="disabled-input" class=" form-control-label">Apellido</label>
                             <div class="input-group">
                                 
                               <div class="input-group-addon"><i class="fa fa-envelope"></i></div>
                               
-                              <input type="text"  id="disabled-input" name="disabled-input" placeholder="<?php echo $row->email;?>" disabled=""class="form-control">
+                              <input type="text"  id="disabled-input" name="disabled-input" placeholder="<?php echo $row->last_name; ?>" disabled=""class="form-control">
+                            </div>
+                          </div> -->
+                  
+                          <div class="form-group">
+                          <label for="disabled-input" class=" form-control-label">Correo electrónico</label>
+                            <div class="input-group">
+                                
+                              <div class="input-group-addon"><i class="fa fa-envelope"></i></div>
+                              
+                              <input type="text"  id="disabled-input" name="disabled-input" placeholder="<?php echo $row->email; ?>" disabled=""class="form-control">
                             </div>
                           </div>
                           <div class="form-group">
                           <label  for="disabled-input" class=" form-control-label">Departamento</label>
                             <div class="input-group">
                               <div class="input-group-addon"><i class="fa fa-archive"></i></div>
-                              <input type="text" id="disabled-input" name="disabled-input" placeholder="<?php echo $row->departamento;?>" disabled="" class="form-control">
+                              <input type="text" id="disabled-input" name="disabled-input" placeholder="<?php echo $row->departamento; ?>" disabled="" class="form-control">
                             </div>
                           </div>
                           <div class="form-actions form-group"><button type="submit" name="change_rol" class="btn btn-success btn-md"><i class="fa fa-check"></i>&nbsp;Actualizar rol</button>
@@ -173,7 +167,7 @@ $row = $obj->Single_Result();
 
                                   <select  name="dep" data-placeholder="Escoga el departamento" multiple class="standardSelect">
                                                         <option value=""></option>
-                                                        <option value="Alcaldia">Alcaldia</option>
+                                                        <option value="Alcaldia">Alcaldía</option>
                                                         <option value="Proveduría">Proveduría</option>
                                                         <option value="Recursos Humanos">Recursos Humanos</option>
                                                         <option value="Gestión Social">Gestión Social</option>

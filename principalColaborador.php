@@ -1,6 +1,7 @@
-<?php include "init.php"; 
+<?php include "init.php";
 $obj = new base_class;
-
+ob_start();
+$user_name = $_SESSION['user_name'];
 ?>
 <!doctype html>
 <!--[if lt IE 7]>      <html class="no-js lt-ie9 lt-ie8 lt-ie7" lang=""> <![endif]-->
@@ -36,7 +37,7 @@ $obj = new base_class;
 
     <div id="right-panel" class="right-panel">
 
-        <?php include"header.php"?>
+        <?php include "headerColaborador.php" ?>
         <!-- Header-->
    <!-- Codigo de la pagina principal-->
       
@@ -54,7 +55,9 @@ $obj = new base_class;
                         <ol class="breadcrumb text-right">
                            
                             
-                            <li class="active"><?php echo ucfirst($_SESSION['user_name']); ?></li>
+                            <li class="active"><?php echo ucfirst($_SESSION['user_name']);
+                                                echo ' ';
+                                                echo ucfirst($_SESSION['user_last_name']); ?></li>
                         </ol>
                     </div>
                 </div>
@@ -65,9 +68,9 @@ $obj = new base_class;
 <!-- Alertas-->
 <div class="col-sm-8">
 
-<?php if(isset($_SESSION['name_updated'])): ?>
+<?php if (isset($_SESSION['name_updated'])) : ?>
  <div class="sufee-alert alert with-close alert-success alert-dismissible fade show">
-    <span class="badge badge-pill badge-success">EXITO</span>
+    <span class="badge badge-pill badge-success">ÉXITO</span>
     <?php echo $_SESSION['name_updated']; ?>
     <button type="button" class="close" data-dismiss="alert" aria-label="Close">
      <span class="quitar"aria-hidden="true">&times;</span> </button>
@@ -76,9 +79,9 @@ $obj = new base_class;
     <?php unset($_SESSION['name_updated']); ?>
 
 
-<?php if(isset($_SESSION['update_image'])): ?>
+<?php if (isset($_SESSION['update_image'])) : ?>
  <div class="sufee-alert alert with-close alert-success alert-dismissible fade show">
-    <span class="badge badge-pill badge-success">EXITO</span>
+    <span class="badge badge-pill badge-success">ÉXITO</span>
     <?php echo $_SESSION['update_image']; ?>
    <button type="button" class="close" data-dismiss="alert" aria-label="Close">
    <span class="quitar"aria-hidden="true">&times;</span></button>
@@ -87,9 +90,9 @@ $obj = new base_class;
    <?php unset($_SESSION['update_image']); ?>
 
 
-<?php if(isset($_SESSION['password_updated'])): ?>
+<?php if (isset($_SESSION['password_updated'])) : ?>
  <div class="sufee-alert alert with-close alert-success alert-dismissible fade show">
-    <span class="badge badge-pill badge-success">EXITO</span>
+    <span class="badge badge-pill badge-success">ÉXITO</span>
     <?php echo $_SESSION['password_updated']; ?>
      <button type="button" class="close" data-dismiss="alert" aria-label="Close">
      <span class="quitar"aria-hidden="true">&times;</span> </button>
@@ -119,10 +122,10 @@ $obj = new base_class;
 
                                     <div class="h4 mb-0">
                                     <?php
-$obj->Normal_Query("SELECT  * FROM users");
-$row = $obj->Count_Rows();
-?>
-                                        <span class="count"><?php echo $row;?></span>
+                                    $obj->Normal_Query("SELECT  * FROM users");
+                                    $row = $obj->Count_Rows();
+                                    ?>
+                                        <span class="count"><?php echo $row; ?></span>
                                     </div>
 
                                     <small class="text-muted text-uppercase font-weight-bold">Total de usuarios</small>
@@ -135,9 +138,13 @@ $row = $obj->Count_Rows();
                                         <i class="fa fa-user-plus"></i>
                                     </div>
                                     <div class="h4 mb-0">
-                                        <span class="count">3</span>
+                                    <?php 
+                                    $obj->Normal_Query("SELECT * FROM `notificaciones` WHERE `estado` = 'leido' and (`estado_jefe` = 'Asignado a colaborador') and `fecha_hora` BETWEEN date_sub(now(), interval 1 week)  AND NOW() ORDER BY `fecha_hora` DESC");
+                                    $row = $obj->Count_Rows();
+                                    ?>
+                                        <span class="count"><?php echo $row; ?></span>
                                     </div>
-                                    <small class="text-muted text-uppercase font-weight-bold">Nuevos usuarios</small>
+                                    <small class="text-muted text-uppercase font-weight-bold">Notificaciones leídas (hoy)</small>
                                     <div class="progress progress-xs mt-3 mb-0 bg-flat-color-2" style="width: 100%; height: 5px;"></div>
                                 </div>
                             </div>
@@ -148,10 +155,10 @@ $row = $obj->Count_Rows();
                                     </div>
                                     <div class="h4 mb-0">
                                     <?php
-$obj->Normal_Query("SELECT  * FROM acuerdos");
-$row = $obj->Count_Rows();
-?>
-                                        <span class="count"><?php echo $row;?></span>
+                                    $obj->Normal_Query("SELECT * FROM acuerdos WHERE acuerdos.colaboradores LIKE '%" . $user_name . "%'");
+                                    $row = $obj->Count_Rows();
+                                    ?>
+                                        <span class="count"><?php echo $row; ?></span>
                                     </div>
 
                                     <small class="text-muted text-uppercase font-weight-bold">Total de acuerdos</small>
@@ -164,11 +171,21 @@ $row = $obj->Count_Rows();
                                         <i class="fa fa-check"></i>
                                     </div>
                                     <?php
-$obj->Normal_Query("SELECT  * FROM acuerdos");
-$row = $obj->Count_Rows();
-?>
+                                    $obj->Normal_Query("SELECT estado_colaborador 
+                                                        FROM acuerdos 
+                                                        WHERE estado_colaborador LIKE 'Finalizado' and colaboradores LIKE '%" . $user_name . "%'");
+                                    $tot = $obj->Count_Rows();
+                                    $obj->Normal_Query("SELECT estado_colaborador 
+                                                        FROM acuerdos 
+                                                        WHERE colaboradores LIKE '%" . $user_name . "%'");
+                                    $row = $obj->Count_Rows();
+                                    $total = 0;
+                                    if($row != 0) {
+                                        $total = $tot * 100 / $row;
+                                    }
+                                    ?>
                                     <div class="h4 mb-0">
-                                        <span class="count"><?php echo $row;?></span>%
+                                        <span class="count"><?php echo $row, "/", $tot, " (", $total, "%)"; ?></span>
                                     </div>
                                     
                                     <small class="text-muted text-uppercase font-weight-bold">Acuerdos terminados</small>
@@ -199,8 +216,8 @@ $row = $obj->Count_Rows();
                             <table class="table">
                               <thead>
                                 <tr>
-                                <th>Id</th>
-                      <th>Nombre</th>
+                                <th>Nombre</th>
+                      <th>Apellido</th>
                       <th>Email</th>
                       <th>Departamento</th>
                       <th>Rol de usuario</th>
@@ -208,26 +225,26 @@ $row = $obj->Count_Rows();
                               </tr>
                           </thead>
                           <?php
-$obj->Normal_Query("SELECT  * FROM users");
-$message_row=$obj-> fetch_all();
+                            $obj->Normal_Query("SELECT  * FROM users");
+                            $message_row = $obj->fetch_all();
 
-foreach($message_row as $row):
-    ?>
+                            foreach ($message_row as $row) :
+                            ?>
                           <tbody>
                             <tr>
-                            <td><?php echo $row->id,"<br>";?></td>
+                            <td><?php echo $row->name, "<br>"; ?></td>
     <td>
-      <?php echo $row->name,"<br>";?>
+      <?php echo $row->last_name, "<br>"; ?>
     </td>
-    <td><?php echo $row->email,"<br>";?></td>
-    <td><?php echo $row->departamento,"<br>";?></td>
+    <td><?php echo $row->email, "<br>"; ?></td>
+    <td><?php echo $row->departamento, "<br>"; ?></td>
     <td>
-        <?php echo $row->rolUsuario,"<br>";?>
+        <?php echo $row->rolUsuario, "<br>"; ?>
     </td>
                           </tr>
                           <?php
-                                        endforeach;
-                                        ?>
+                            endforeach;
+                            ?>
                       </tbody>
                   </table>
                         </div>

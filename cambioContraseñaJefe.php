@@ -36,7 +36,7 @@ if(isset($_POST['change_password'])) {
             $db_password = $row->password;
             if(password_verify($current_password, $db_password)){
                 if($obj->Normal_Query("UPDATE users SET password = ? WHERE id = ?", [password_hash($new_password,PASSWORD_DEFAULT), $user_id])) {
-                    $obj->Create_Session("password_updated", "su contraseña se cambio correctamente");
+                    $obj->Create_Session("password_updated", "su contraseña se cambió correctamente");
                     header("location:principalJefe.php");
                 }
 
@@ -82,7 +82,7 @@ if(isset($_POST['change_password'])) {
     <div id="right-panel" class="right-panel">
 
         <!-- Header-->
-        <?php include"header.php"?>
+        <?php include"headerJefe.php"?>
         <!-- Header-->
 
         <div class="breadcrumbs">
@@ -97,7 +97,7 @@ if(isset($_POST['change_password'])) {
                 <div class="page-header float-right">
                     <div class="page-title">
                         <ol class="breadcrumb text-right">
-                            <li><a href="principal.php">Inicio</a></li>
+                            <li><a href="principalJefe.php">Inicio</a></li>
                             <li class="active">Mi perfil</a></li>
                             <li class="active">Cambiar Contraseña</li>
                         </ol>

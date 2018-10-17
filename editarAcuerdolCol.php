@@ -1,20 +1,24 @@
 <?php include "init.php"; 
 $obj = new base_class;
 
-
-
-
-
-
-
 if(isset($_POST['change_est'])) {
     $estado_colaborador = $_POST['est'];
     $id = $_GET['id'];
 
     if($obj->Normal_Query("UPDATE acuerdos SET estado_colaborador = ? WHERE id = ?", [$estado_colaborador, $id])){
-        $obj->Create_Session("fecha_acuerdo", $estado_colaborador);
-        $obj->Create_Session("estado_jefe", "Se actualizo correctamente el estado del acuerdo");
-        header("location:verColaboradoresCol.php");
+        
+      $obj->Normal_Query("SELECT * FROM `acuerdos` WHERE id = ?", [$id]);
+        $obj->Count_Rows();
+        $row = $obj->Single_Result();
+        $num = $row->num_acuerdo;
+        $dep = $row->departamento;
+
+        $obj->Normal_Query("INSERT INTO notificaciones (num_acuerdo, departamento, estado_colaborador) 
+                            VALUES (?,?,?)", [$num, $dep, $estado_colaborador]);
+
+      $obj->Create_Session("fecha_acuerdo", $estado_colaborador);
+      $obj->Create_Session("estado_jefe", "Se actualizó correctamente el estado del acuerdo");
+      header("location:verColaboradoresCol.php");
 }
 }
 
@@ -74,7 +78,7 @@ $user_rol = 'Colaborador';
     <div id="right-panel" class="right-panel">
 
         <!-- Header-->
-        <?php include "header.php"?>
+        <?php include "headerJefe.php"?>
         <!-- Header-->
 
         <div class="breadcrumbs">
@@ -89,8 +93,8 @@ $user_rol = 'Colaborador';
                 <div class="page-header float-right">
                     <div class="page-title">
                         <ol class="breadcrumb text-right">
-                            <li><a href="#">Inicio</a></li>
-                            <li><a href="#">Acuerdos</a></li>
+                            <li><a href="principalJefe.php">Inicio</a></li>
+                            <li><a class="active">Acuerdos</a></li>
                             <li class="active">Asignar colaboradores</li>
                         </ol>
                     </div>
